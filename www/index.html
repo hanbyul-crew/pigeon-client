@@ -31,7 +31,7 @@
         <title>Pigeon</title>
     </head>
     <body>
-        <script id="home-tpl" type="text/template">
+        <script id="head-tpl" type="text/template">
         <header class="bar bar-nav">
             <a class="icon icon-compose pull-right"></a>
             <h1 class="title">{{ title }}</h1>
@@ -39,12 +39,25 @@
         <div class="content"></div>
         </script>
 
+        <script id="home-tpl" type="text/template">
+        <ul class="table-view">
+            <li class="table-view-cell media">
+              <a class="navigate-right" href="#signout">
+                <span class="media-object pull-left icon icon-edit"></span>
+                <div class="media-body">
+                    Sign Out
+                </div>
+              </a>
+            </li>
+        </ul>
+        </script>
+
         
 
         <script id="auth-tpl" type="text/template">
         <ul class="table-view">
             <li class="table-view-cell media">
-              <a class="navigate-right" href="#view/signUp">
+              <a class="navigate-right" href="#signup">
                 <span class="media-object pull-left icon icon-edit"></span>
                 <div class="media-body">
                     Sign Up
@@ -52,7 +65,7 @@
               </a>
             </li>
             <li class="table-view-cell media">
-              <a class="navigate-right" href="#view/signIn">
+              <a class="navigate-right" href="#signin">
                 <span class="media-object pull-left icon icon-person"></span>
                 <div class="media-body">
                     Sign In

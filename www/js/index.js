@@ -21,30 +21,56 @@ var app = {
     initialize: function() {
 
         var slider = new PageSlider($('body'));
+        var headTpl = Handlebars.compile($("#head-tpl").html());
         var homeTpl = Handlebars.compile($("#home-tpl").html());
         var authTpl = Handlebars.compile($("#auth-tpl").html());
         var signTpl = Handlebars.compile($("#sign-tpl").html());
         router.addRoute('', function(){
             if (!window.localStorage.getItem("username")) {
-                $('body').html(homeTpl({title:'Pigeon'}));
+                $('body').html(headTpl({title:'Pigeon'}));
                 $('div.content').html(authTpl());
             } else {
-                $('body').html(homeTpl({title:window.localStorage.getItem("username")}));
+                $('body').html(headTpl({title:window.localStorage.getItem("username")}));
+                $('div.content').html(homeTpl());
             }
         })
-        router.addRoute('view/signUp', function(){
+        router.addRoute('signup', function(){
             if (!window.localStorage.getItem("username")){
-                $('body').html(homeTpl({title:'Sign Up'}));
+                $('body').html(headTpl({title:'Sign Up'}));
                 $('div.content').html(signTpl());
 
                 var form = $(".sign-group");  
-                $('#done', form).on('tap', function() {
+                $('#done', form).on('click', function() {
                     $("#done",form).attr("disabled","disabled");
                     var u = $("#username", form).val();
                     var p = $('#password', form).val();
-                    $.post("http://localhost:8080/signUp", {username:u,password:p}, function(res) {
-                        if(res == true) {
-                            //store
+                    $.post("http://localhost:8080/signup", {username:u,password:p}, function(res) {
+                        if(res.success == true) {
+                            window.localStorage["username"] = u;
+                            window.location="index.html";
+                            //$.mobile.changePage("some.html");
+                        } else {
+                            window.alert("can not sign up")
+                        }
+                     $("#done",form).removeAttr("disabled");
+                    },"json");
+                });
+            } else {
+                window.location="index.html";
+            }
+        });
+        router.addRoute('signin', function() {
+            if (!window.localStorage.getItem("username")){
+                $('body').html(headTpl({title:'Sign In'}));
+                $('div.content').html(signTpl());
+
+                var form = $(".sign-group");  
+                $('#done', form).on('click', function() {
+                    $("#done",form).attr("disabled","disabled");
+                    var u = $("#username", form).val();
+                    var p = $('#password', form).val();
+                    $.post("http://localhost:8080/signin", {username:u,password:p}, function(res) {
+                        if(res.success == true) {
                             window.localStorage["username"] = u;
                             window.location="index.html";
                             //$.mobile.changePage("some.html");
@@ -55,23 +81,12 @@ var app = {
                     },"json");
                 });
             } else {
-                window.location="index.html";
+                window.location ="index.html"
             }
         });
-        router.addRoute('view/signIn', function() {
-            if (!window.localStorage.getItem("username")){
-                $('body').html(homeTpl({title:'Sign In'}));
-                $('div.content').html(signTpl());
-
-                var form = $(".sign-group");  
-                $('#done', form).('tap', function() {
-                    $("#done",form).attr("disabled","disabled");
-                    var u = $("#username", form).val();
-                    var p = $('#password', form).val();
-                });
-            } else {
-                router.load('');
-            }
+        router.addRoute('signout', function() {
+            window.localStorage.clear();
+            window.location = "index.html";
         });
         router.start();
         this.bindEvents();
