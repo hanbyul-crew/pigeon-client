@@ -19,74 +19,170 @@
 var app = {
     // Application Constructor
     initialize: function() {
-
+        var server = "http://192.168.0.9:8080"
         var slider = new PageSlider($('body'));
         var headTpl = Handlebars.compile($("#head-tpl").html());
         var homeTpl = Handlebars.compile($("#home-tpl").html());
         var authTpl = Handlebars.compile($("#auth-tpl").html());
         var signTpl = Handlebars.compile($("#sign-tpl").html());
+        var friendsTpl = Handlebars.compile($("#friends-tpl").html());
         router.addRoute('', function(){
-            if (!window.localStorage.getItem("username")) {
-                $('body').html(headTpl({title:'Pigeon'}));
-                $('div.content').html(authTpl());
-            } else {
-                $('body').html(headTpl({title:window.localStorage.getItem("username")}));
-                $('div.content').html(homeTpl());
-            }
-        })
-        router.addRoute('signup', function(){
-            if (!window.localStorage.getItem("username")){
-                $('body').html(headTpl({title:'Sign Up'}));
-                $('div.content').html(signTpl());
+          if (!window.localStorage.getItem("username")) {
+            $('body').html(headTpl({title:'Pigeon'}));
+            $('div.content').html(authTpl());
+            return;
+          } 
+          var requests = [];
 
-                var form = $(".sign-group");  
-                $('#done', form).on('click', function() {
-                    $("#done",form).attr("disabled","disabled");
-                    var u = $("#username", form).val();
-                    var p = $('#password', form).val();
-                    $.post("http://localhost:8080/signup", {username:u,password:p}, function(res) {
-                        if(res.success == true) {
-                            window.localStorage["username"] = u;
-                            window.location="index.html";
-                            //$.mobile.changePage("some.html");
-                        } else {
-                            window.alert("can not sign up")
-                        }
-                     $("#done",form).removeAttr("disabled");
-                    },"json");
-                });
-            } else {
-                window.location="index.html";
-            }
+          $.post(server+'/get-request', 
+            {username:window.localStorage.getItem("username")}, 
+            function(res) {
+              if (res.success) {
+                requests = res.requests;
+              }
+              $('body').html(headTpl({title:window.localStorage.getItem("username")}));
+              $('div.content').html(homeTpl({requests:requests}));
+              $('div.toggle').on("toggle", function(e) {
+                var el = $(this);
+                if (el.hasClass('active')) {
+                  var li = $(this).parent(); 
+                  var from = li.data('from');
+                  $.post(server + '/accept', 
+                    {username:window.localStorage.getItem('username'), friend:from},
+                    function(res) {
+                      if(res.success){
+                          li.fadeOut("slow");
+                      }
+                      else window.alert("fail to accept");
+                    }); // end of accept
+                } // end of activ?
+              }); // end of toggle
+
+              $('#addfriend').keypress(function(e) {
+                  if (e.which == 13) { // enter key
+                  var username = window.localStorage.getItem('username'), friend = $('#addfriend').val();
+                  if (username != friend) {
+                    $.post(
+                      server + '/send-request', 
+                      {username:window.localStorage.getItem('username'), friend:$('#addfriend').val()}, 
+                      function(res) {
+                          if(res.success) {
+                              $('#addfriend').val('');
+                              window.alert("Sent a Request to " + friend);
+                              return true;
+                          }
+                          return false;
+                      }
+                    );
+                    return false
+                  } else {
+                      window.alert("Cannot Add Yourself!!!!");
+                  }
+                } // when entered
+              }
+            ); // end of add friend
+          }
+        ); // end of get-request
+      })// end of router
+
+      router.addRoute('friends', function() {
+        if(!window.localStorage.getItem("username")) return window.location = "index.html";
+        var username = window.localStorage.getItem("username");
+        async.parallel({
+          requests:function(callback) {
+            $.post(server+'/get-request', {username:username}, function(res) {
+              if(!res.success) callback(res.message);
+              else if(!res.requests) callback(null, []);
+              else callback(null, res.requests);
+            });
+          },
+          friends:function(callback) {
+            $.post(server+'/friends', {username:username}, function(res) {
+              if(!res.success) callback(res.err);
+              else if(!res.friends) callback(null, []);
+              else callback(null, res.friends);
+            });
+          }
+        }, 
+        function(err, result) {
+          if(err) window.alert(err.message);
+          else {
+            console.log(result);
+            $('body').html(headTpl({title:'Friends'}));
+            $('div.content').html(friendsTpl({requests:result.requests, friends:result.friends}));
+            $('div.toggle').on("toggle", function(e) {
+              var el = $(this);
+              if (el.hasClass('active')) {
+                  var li = $(this).parent(); 
+                  var from = li.data('from');
+                  $.post(server + '/accept', 
+                      {username:window.localStorage.getItem('username'), friend:from},
+                  function(res) {
+                      if(res.success){
+                          li.fadeOut("slow");
+                      }
+                      else window.alert("fail to accept");
+                  });
+              }
+            });
+          }
+        });
+      });
+
+        
+        router.addRoute('signup', function(){
+          if (!window.localStorage.getItem("username")){
+              $('body').html(headTpl({title:'Sign Up'}));
+              $('div.content').html(signTpl());
+
+              var form = $(".sign-group");  
+              $('#done', form).on('click', function() {
+                  $("#done",form).attr("disabled","disabled");
+                  var u = $("#username", form).val();
+                  var p = $('#password', form).val();
+                  $.post(server + "/signup", {username:u,password:p}, function(res) {
+                      if(res.success == true) {
+                          window.localStorage["username"] = u;
+                          window.location="index.html";
+                          //$.mobile.changePage("some.html");
+                      } else {
+                          window.alert("can not sign up")
+                      }
+                   $("#done",form).removeAttr("disabled");
+                  },"json");
+              });
+          } else {
+              window.location="index.html";
+          }
         });
         router.addRoute('signin', function() {
-            if (!window.localStorage.getItem("username")){
-                $('body').html(headTpl({title:'Sign In'}));
-                $('div.content').html(signTpl());
-
-                var form = $(".sign-group");  
-                $('#done', form).on('click', function() {
-                    $("#done",form).attr("disabled","disabled");
-                    var u = $("#username", form).val();
-                    var p = $('#password', form).val();
-                    $.post("http://localhost:8080/signin", {username:u,password:p}, function(res) {
-                        if(res.success == true) {
-                            window.localStorage["username"] = u;
-                            window.location="index.html";
-                            //$.mobile.changePage("some.html");
-                        } else {
-                            window.alert("can not sign up")
-                        }
-                     $("#submitButton").removeAttr("disabled");
-                    },"json");
-                });
-            } else {
-                window.location ="index.html"
-            }
+          if (!window.localStorage.getItem("username")){
+              $('body').html(headTpl({title:'Sign In'}));
+              $('div.content').html(signTpl());
+              var form = $(".sign-group");  
+              $('#done', form).on('click', function() {
+                  $("#done",form).attr("disabled","disabled");
+                  var u = $("#username", form).val();
+                  var p = $('#password', form).val();
+                  $.post(server + "/signin", {username:u,password:p}, function(res) {
+                      if(res.success == true) {
+                          window.localStorage["username"] = u;
+                          window.location="index.html";
+                          //$.mobile.changePage("some.html");
+                      } else {
+                          window.alert("Invalid Username or Password")
+                      }
+                   $("#done", form).removeAttr("disabled");
+                  },"json");
+              });
+          } else {
+              window.location ="index.html"
+          }
         });
         router.addRoute('signout', function() {
-            window.localStorage.clear();
-            window.location = "index.html";
+            window.localStorage.removeItem("username");
+            window.location="index.html";
+            //$.mobile.changePage("some.html");
         });
         router.start();
         this.bindEvents();
@@ -104,7 +200,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        
+       
         StatusBar.overlaysWebView( false );
         StatusBar.backgroundColorByHexString('#ffffff');
         StatusBar.styleDefault();
@@ -115,7 +211,7 @@ var app = {
                 navigator.notification.alert(
                     message,
                     null,
-                    "Workshop", 
+                    "Pigeon", 
                     'OK')
             }
         }

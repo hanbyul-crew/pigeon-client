@@ -23,28 +23,60 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        
         <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
         <link href="assets/ratchet/css/ratchet.css" rel="stylesheet">
+        <link href="assets/ratchet/css/ratchet-theme-android.css" rel="stylesheet">
         <link href="css/pageslider.css" rel="stylesheet">
         <meta name="msapplication-tap-highlight" content="no" />
         <script src="assets/ratchet/js/ratchet.js"></script>
         <title>Pigeon</title>
     </head>
     <body>
-        <script id="home-tpl" type="text/template">
+        <script id="head-tpl" type="text/template">
         <header class="bar bar-nav">
             <a class="icon icon-compose pull-right"></a>
             <h1 class="title">{{ title }}</h1>
         </header>
+        <div class="bar bar-standard bar-header-secondary">
+            <input id="addfriend" type="search" placeholder="Add a Friend">
+        </div>
         <div class="content"></div>
         </script>
 
+        <script id="home-tpl" type="text/template">
         
+        <ul class="table-view">
+            <li class="table-view-divider">Messages</li>
+            <li class="table-view-divider">Friend Requests</li>
+            {{#each requests}}
+            <li class="table-view-cell media">
+              
+                    {{from.username}}
+                  <p>{{created_at}}</p>
+              
+            <div class="toggle">
+              <div class="toggle-handle"></div>
+            </div>
+            </li>
+            {{/each}}
+            <li class="table-view-divider">Sign Out</li>
+            <li class="table-view-cell media">
+              <a class="navigate-right" href="#signout">
+                <span class="media-object pull-left icon icon-edit"></span>
+                <div class="media-body">
+                    Sign Out
+                </div>
+              </a>
+            </li>
+            
+        </ul>
+        </script>
 
         <script id="auth-tpl" type="text/template">
         <ul class="table-view">
             <li class="table-view-cell media">
-              <a class="navigate-right" href="#view/signUp">
+              <a class="navigate-right" href="#signup">
                 <span class="media-object pull-left icon icon-edit"></span>
                 <div class="media-body">
                     Sign Up
@@ -52,7 +84,7 @@
               </a>
             </li>
             <li class="table-view-cell media">
-              <a class="navigate-right" href="#view/signIn">
+              <a class="navigate-right" href="#signin">
                 <span class="media-object pull-left icon icon-person"></span>
                 <div class="media-body">
                     Sign In

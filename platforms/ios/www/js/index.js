@@ -19,60 +19,100 @@
 var app = {
     // Application Constructor
     initialize: function() {
-
+        var server = "http://192.168.0.9:8080"
         var slider = new PageSlider($('body'));
+        var headTpl = Handlebars.compile($("#head-tpl").html());
         var homeTpl = Handlebars.compile($("#home-tpl").html());
         var authTpl = Handlebars.compile($("#auth-tpl").html());
         var signTpl = Handlebars.compile($("#sign-tpl").html());
         router.addRoute('', function(){
             if (!window.localStorage.getItem("username")) {
-                $('body').html(homeTpl({title:'Pigeon'}));
+                $('body').html(headTpl({title:'Pigeon'}));
                 $('div.content').html(authTpl());
             } else {
-                $('body').html(homeTpl({title:window.localStorage.getItem("username")}));
+                var requests = [];
+                
+                $.post(server+'/get-request', {username:window.localStorage.getItem("username")}, function(res) {
+                  if (res.success) {
+                    requests = res.requests;
+                    $('body').html(headTpl({title:window.localStorage.getItem("username")}));
+                    $('div.content').html(homeTpl({requests:requests}));
+                    $('#addfriend').keypress(function(e) {
+                        if (e.which == 13) { // enter key
+                            $.post(
+                                 server + '/send-request', 
+                                {username:window.localStorage.getItem('username'), friend:$('#addfriend').val()}, 
+                                function(res) {
+                                    if(res.success) {
+                                        console.log(res.request);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            );
+                            return false
+                        }
+                    });
+                    return true;
+                  }
+                  else return false;
+                });
             }
         })
-        router.addRoute('view/signUp', function(){
+        router.addRoute('signup', function(){
             if (!window.localStorage.getItem("username")){
-                $('body').html(homeTpl({title:'Sign Up'}));
+                $('body').html(headTpl({title:'Sign Up'}));
                 $('div.content').html(signTpl());
 
                 var form = $(".sign-group");  
-                $('#done', form).click(function() {
+                $('#done', form).on('click', function() {
                     $("#done",form).attr("disabled","disabled");
                     var u = $("#username", form).val();
                     var p = $('#password', form).val();
-                    $.post("http://localhost:8080/signUp", {username:u,password:p}, function(res) {
-                        if(res == true) {
-                            //store
+                    $.post(server + "/signup", {username:u,password:p}, function(res) {
+                        if(res.success == true) {
                             window.localStorage["username"] = u;
                             window.location="index.html";
                             //$.mobile.changePage("some.html");
                         } else {
                             window.alert("can not sign up")
                         }
-                     $("#submitButton").removeAttr("disabled");
+                     $("#done",form).removeAttr("disabled");
                     },"json");
                 });
             } else {
                 window.location="index.html";
             }
         });
-        router.addRoute('view/signIn', function() {
+        router.addRoute('signin', function() {
             if (!window.localStorage.getItem("username")){
-                $('body').html(homeTpl({title:'Sign In'}));
+                $('body').html(headTpl({title:'Sign In'}));
                 $('div.content').html(signTpl());
 
                 var form = $(".sign-group");  
-                $('#done', form).click(function() {
+                $('#done', form).on('click', function() {
                     $("#done",form).attr("disabled","disabled");
                     var u = $("#username", form).val();
                     var p = $('#password', form).val();
-                    console.log(u, p);
+                    $.post(server + "/signin", {username:u,password:p}, function(res) {
+                        if(res.success == true) {
+                            window.localStorage["username"] = u;
+                            window.location="index.html";
+                            //$.mobile.changePage("some.html");
+                        } else {
+                            window.alert("Invalid Username or Password")
+                        }
+                     $("#done", form).removeAttr("disabled");
+                    },"json");
                 });
             } else {
-                router.load('');
+                window.location ="index.html"
             }
+        });
+        router.addRoute('signout', function() {
+            window.localStorage.removeItem("username");
+            window.location="index.html";
+            //$.mobile.changePage("some.html");
         });
         router.start();
         this.bindEvents();
@@ -90,18 +130,16 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        
         StatusBar.overlaysWebView( false );
         StatusBar.backgroundColorByHexString('#ffffff');
         StatusBar.styleDefault();
         FastClick.attach(document.body);
-
         if(navigator.notification) {
             window.alert = function (message) {
                 navigator.notification.alert(
                     message,
                     null,
-                    "Workshop", 
+                    "Pigeon", 
                     'OK')
             }
         }

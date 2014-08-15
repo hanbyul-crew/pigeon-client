@@ -62,6 +62,7 @@
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/handlebars-v1.3.0.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/jquery-2.1.1.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/jquery-2.1.1.min.map \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/jquery.mobile-1.4.3.min.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/page.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/pageslider.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/parsley.js \

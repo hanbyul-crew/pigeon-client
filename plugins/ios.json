@@ -9,11 +9,15 @@
                 "parents": {
                     "/*": [
                         {
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
                             "count": 1
                         },
                         {
@@ -30,10 +34,6 @@
                         },
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -52,16 +52,16 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.hanbyul.pigeon"
-        },
         "org.apache.cordova.console": {
             "PACKAGE_NAME": "com.hanbyul.pigeon"
         },
-        "org.apache.cordova.statusbar": {
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.hanbyul.pigeon"
         },
         "org.apache.cordova.dialogs": {
+            "PACKAGE_NAME": "com.hanbyul.pigeon"
+        },
+        "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "com.hanbyul.pigeon"
         }
     },
