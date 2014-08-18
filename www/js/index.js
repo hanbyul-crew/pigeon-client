@@ -26,6 +26,7 @@ var app = {
         var authTpl = Handlebars.compile($("#auth-tpl").html());
         var signTpl = Handlebars.compile($("#sign-tpl").html());
         var friendsTpl = Handlebars.compile($("#friends-tpl").html());
+        var newMessageTpl = Handlebars.compile($("#new-message-tpl").html());
         router.addRoute('', function(){
           if (!window.localStorage.getItem("username")) {
             $('body').html(headTpl({title:'Pigeon'}));
@@ -184,6 +185,15 @@ var app = {
             window.location="index.html";
             //$.mobile.changePage("some.html");
         });
+
+        //new message
+        router.addRoute('newmessage', function() {
+          if(!window.localStorage.getItem("username")) return;
+          $('body').html(headTpl({title:'New Message'}));
+          $('div.content').html(newMessageTpl());
+        });
+
+
         router.start();
         this.bindEvents();
     },
