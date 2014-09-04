@@ -9,4 +9,6 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <access origin="http://hidden-lowlands-6115.herokuapp.com/" />
+    <plugin name="Geolocation" value="CDVLocation" />
 </widget>

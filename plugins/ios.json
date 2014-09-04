@@ -35,6 +35,10 @@
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -44,6 +48,12 @@
                     "AudioToolbox.framework": [
                         {
                             "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "CoreLocation.framework": [
+                        {
+                            "xml": "false",
                             "count": 1
                         }
                     ]
@@ -62,6 +72,9 @@
             "PACKAGE_NAME": "com.hanbyul.pigeon"
         },
         "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "com.hanbyul.pigeon"
+        },
+        "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "com.hanbyul.pigeon"
         }
     },

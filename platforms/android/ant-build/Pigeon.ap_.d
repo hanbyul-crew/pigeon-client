@@ -58,6 +58,8 @@
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/css/pageslider.css \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/img/logo.png \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/js/index.js \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/js/redis-setting.js \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/async.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/fastclick.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/handlebars-v1.3.0.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/jquery-2.1.1.js \
@@ -66,6 +68,7 @@
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/page.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/pageslider.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/parsley.js \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/pretty.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/router.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/plugins/org.apache.cordova.device \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/plugins/org.apache.cordova.dialogs \

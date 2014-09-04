@@ -44,6 +44,7 @@
 		CC3FADDF30794985B2BB6C6C /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CEA8CB41C3A41CF96860439 /* CDVNotification.bundle */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		E972FE57628E488EA3B924F3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FCF485B27544840955A4D24 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		795E2F954635497282D5F35F /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = D58D0BA6DD0441138B3D4AB2 /* CDVLocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,8 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		F7FAC1AD475646E5BE37F550 /* CDVStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = org.apache.cordova.statusbar/CDVStatusBar.h; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Pigeon/config.xml; sourceTree = "<group>"; };
+		D58D0BA6DD0441138B3D4AB2 /* CDVLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVLocation.m"; path = "org.apache.cordova.geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		ED093C756441413981199A0C /* CDVLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLocation.h"; path = "org.apache.cordova.geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +252,8 @@
 				CF84FB168CF346D4A9F45A7A /* CDVNotification.h */,
 				0A4D898D5D5E43548BAF6A86 /* CDVStatusBar.m */,
 				F7FAC1AD475646E5BE37F550 /* CDVStatusBar.h */,
+				D58D0BA6DD0441138B3D4AB2 /* CDVLocation.m */,
+				ED093C756441413981199A0C /* CDVLocation.h */,
 			);
 			name = Plugins;
 			path = Pigeon/Plugins;
@@ -448,6 +453,7 @@
 				CA81383353AC4D628C1483BC /* CDVDevice.m in Sources */,
 				6AA585B065944A20B017EBE7 /* CDVNotification.m in Sources */,
 				C71312280B7A45689F5CA15F /* CDVStatusBar.m in Sources */,
+				795E2F954635497282D5F35F /* CDVLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,6 +34,9 @@
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <feature name="Geolocation">
+        <param name="ios-package" value="CDVLocation" />
+    </feature>
     <name>Pigeon</name>
     <description>
 		the slowest messanger ever.
@@ -43,4 +46,5 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <plugin name="Geolocation" value="CDVLocation" />
 </widget>
