@@ -316,7 +316,7 @@ var app = {
                       li.fadeOut("slow");
                       location.reload(true);
                   }
-                  else window.alert("fail to accept");
+                  else window.alert("Failed to accept");
               });
           }
         });
@@ -372,7 +372,7 @@ var app = {
              // result now equals 'done'
             $("#done", form).removeAttr("disabled");
             if(err) {
-              window.alert(err.message);
+              window.alert("Failed to signup");
             }
             else {
               window.localStorage["username"] = result.username;
