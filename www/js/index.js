@@ -202,6 +202,7 @@ var app = {
           $('body').html(headTpl({title:'Delivering Messages'}));
           $('div.content').html(deliveringMessagesTpl({messages:messages}));
           $('header').append('<a class="icon icon-compose pull-right" href="#choosefriend/deliverings"></a>');
+
         }
       });
     });
@@ -222,6 +223,8 @@ var app = {
             msg.created_at_pretty = humaneDate(msg.created_at);
             msg.elapsed_time = msToTime(msg.elapsed_mills);
             msg.duration_time = msToTime(msg.duration_mills);
+            msg.width = window.screen.availWidth-30;
+
             $('body').html(headTpl({title:"To:" + msg.to.username}));
             $('div.content').html((deliveringMessageTpl({message:msg})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#deliverings"></a>');
