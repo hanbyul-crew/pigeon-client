@@ -489,6 +489,35 @@ var app = {
       
     });
 
+    router.addRoute('updatelocation', function() {
+      async.waterfall([
+        function(callback) {
+          getLocation(function(err, result) {
+            if(err) callback(err);
+            var loc = {latitude:result.coords.latitude, longitude:result.coords.longitude};
+            callback(null, loc);
+          });
+        }, 
+        function(loc, callback) {
+          getAddress(loc.latitude, loc.longitude, function(err, address) {
+            if(err) callback(err)              
+            else {
+              loc.address = address;
+              callback(null, loc); 
+            }
+          });
+        },
+        function(loc, callback) {
+          $.post(server + "/update-location", {username:window.localStorage['username'], location:loc}, function(res) {
+            if(res.success) callback(null, res.user);
+            else callback(new Error("can't update the location"));
+          })
+        }], 
+        function(err, result) {
+          if(err) window.alert("Failed to Update Your Location")
+          else window.alert("Your Location is Updated")
+        });
+    });
 
     router.start();
     this.bindEvents();

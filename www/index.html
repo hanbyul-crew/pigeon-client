@@ -314,10 +314,21 @@
         </script>
 
         <script id="friend-tpl" type="text/template">
-        <div class="content-padded">
-          <h4>{{friend.username}}</h4>
+        <ul class="table-view">
+        <li class="table-view-cell media">
+          <div class="media-body">
+          {{friend.username}}
+          </div>
+        </li>
+        <li class="table-view-cell media">
+          <div class="media-body">
+          Address
           <p>{{friend.location.address}}</p>
-          <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>      
+          </div>
+        </li>
+        </ul>
+        <div class="content-padded">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>             
         </div>
         <div class="bar bar-standard bar-footer-secondary">
           {{#if friend.sending}}
