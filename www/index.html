@@ -82,52 +82,17 @@
         </script>
 
         <script id="incoming-message-tpl" type="text/template">
+        <div class="content-padded">
+        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
+        </div>
         <ul class="table-view">
-          <li class="table-view-cell media">
+        <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
             <div class="media-body">
               {{message.from.username}}
               <p>{{message.created_at_pretty}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            <p>{{message.text}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Departure Point
-            <p>{{message.depart_pos.address}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Elapsed Time
-            <p>{{message.elapsed_time}}</p>
-            </div>
-          </li>
-        </ul>
-        <div class="bar bar-standard bar-footer">
-          {{#if sending}}
-          <button class="btn btn-block btn-negative">Your Pigeon is Flying to {{message.from.username}}</button>
-          {{else}}
-          <a href="#newmessage/{{ message.from.username }}"><button class="btn btn-block btn-primary" id="send">Reply</button></a>
-          {{/if}}
-        </div>
-        </script>
-
-        <script id="delivering-message-tpl" type="text/template">
-        <ul class="table-view">
-          <li class="table-view-cell media">
-            <span class="media-object pull-left icon icon-person"></span>
-            <div class="media-body">
-              {{message.to.username}}
-              <p>{{message.created_at_pretty}}</p>
               <p>{{message.depart_pos.address}}</p>
               <p>{{message.dest_pos.address}}</p>
-              <img src="http://placehold.it/" + {{message.width}} +"x"+ {{message.width}} style="display: block;margin-left: auto;margin-right: auto;">
-
             </div>
           </li>
           <li class="table-view-cell media">
@@ -158,6 +123,65 @@
             Elapsed Time
             <p>{{message.elapsed_time}}</p>
             </div>
+          </li>
+           <li class="table-view-cell media">
+          " "
+          </li>
+          </ul>
+        <div class="bar bar-standard bar-footer">
+          {{#if sending}}
+          <button class="btn btn-block btn-negative">Your Pigeon is Flying to {{message.from.username}}</button>
+          {{else}}
+          <a href="#newmessage/{{ message.from.username }}"><button class="btn btn-block btn-primary" id="send">Reply</button></a>
+          {{/if}}
+        </div>
+        </script>
+
+        <script id="delivering-message-tpl" type="text/template">
+        <div class="content-padded">
+        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
+        </div>
+        <ul class="table-view">
+          <li class="table-view-cell media">
+            <span class="media-object pull-left icon icon-person"></span>
+            <div class="media-body">
+              {{message.to.username}}
+              <p>{{message.created_at_pretty}}</p>
+              <p>{{message.depart_pos.address}}</p>
+              <p>{{message.dest_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            <p>{{message.text}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Departure Point
+            <p>{{message.depart_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Destination Point
+            <p>{{message.dest_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Duration Time
+            <p>{{message.duration_time}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Elapsed Time
+            <p>{{message.elapsed_time}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+          " "
           </li>
         </ul>
 
@@ -293,9 +317,7 @@
         <div class="content-padded">
           <h4>{{friend.username}}</h4>
           <p>{{friend.location.address}}</p>
-          <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.
-            longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>
-          
+          <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>      
         </div>
         <div class="bar bar-standard bar-footer-secondary">
           {{#if friend.sending}}
