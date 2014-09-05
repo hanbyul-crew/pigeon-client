@@ -316,3 +316,4 @@ You could find it at the following address https://developer.apple.com/icloud/do
 2014-09-06 04:27:45.143 Pigeon[5581:70b] [CDVTimer][TotalPluginStartup] 8.527994ms
 2014-09-06 04:27:45.295 Pigeon[5581:70b] Resetting plugins due to page load.
 2014-09-06 04:27:45.949 Pigeon[5581:70b] Finished load of: file:///Users/MACiNO/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/C588BAC4-D758-4592-A929-BC485E2052B1/Pigeon.app/www/index.html#friends
+Terminating in response to SpringBoard's termination.
