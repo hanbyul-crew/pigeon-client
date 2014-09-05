@@ -69,7 +69,7 @@
             <span class="icon icon-pages"></span>
             <span class="tab-label">Messages</span>
           </a>
-          <a class="tab-item" href="#outgoing">
+          <a class="tab-item" href="#deliverings">
             <span class="icon icon-star-filled"></span>
             <span class="tab-label">Delievering</span>
           </a>
@@ -82,13 +82,17 @@
         </script>
 
         <script id="incoming-message-tpl" type="text/template">
+        <div class="content-padded">
+        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
+        </div>
         <ul class="table-view">
-          <li class="table-view-cell media">
+        <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
             <div class="media-body">
               {{message.from.username}}
               <p>{{message.created_at_pretty}}</p>
               <p>{{message.depart_pos.address}}</p>
+              <p>{{message.dest_pos.address}}</p>
             </div>
           </li>
           <li class="table-view-cell media">
@@ -98,22 +102,123 @@
           </li>
           <li class="table-view-cell media">
             <div class="media-body">
-            <p>{{message.elapsed_mills}}</p>
+            Departure Point
+            <p>{{message.depart_pos.address}}</p>
             </div>
           </li>
-        </ul>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Destination Point
+            <p>{{message.dest_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Duration Time
+            <p>{{message.duration_time}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Elapsed Time
+            <p>{{message.elapsed_time}}</p>
+            </div>
+          </li>
+           <li class="table-view-cell media">
+          " "
+          </li>
+          </ul>
         <div class="bar bar-standard bar-footer">
+          {{#if sending}}
+          <button class="btn btn-block btn-negative">Your Pigeon is Flying to {{message.from.username}}</button>
+          {{else}}
           <a href="#newmessage/{{ message.from.username }}"><button class="btn btn-block btn-primary" id="send">Reply</button></a>
+          {{/if}}
         </div>
         </script>
 
-        <script id="outgoing-message-tpl" type="text/template">
+        <script id="delivering-message-tpl" type="text/template">
         <div class="content-padded">
-          {{message.from.username}}
-          <p>{{message.text}}</p>
-          <p>{{message.created_at_pretty}}</p>
+        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
         </div>
+        <ul class="table-view">
+          <li class="table-view-cell media">
+            <span class="media-object pull-left icon icon-person"></span>
+            <div class="media-body">
+              {{message.to.username}}
+              <p>{{message.created_at_pretty}}</p>
+              <p>{{message.depart_pos.address}}</p>
+              <p>{{message.dest_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            <p>{{message.text}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Departure Point
+            <p>{{message.depart_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Destination Point
+            <p>{{message.dest_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Duration Time
+            <p>{{message.duration_time}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Elapsed Time
+            <p>{{message.elapsed_time}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+          " "
+          </li>
+        </ul>
 
+        </script>
+
+        <script id="delivering-messages-tpl" type="text/template">
+        <ul class="table-view">
+            {{#each messages}}
+            <li class="table-view-cell media" data-from={{from.username}}>
+            <a class="navigate-right" href="#delivering/{{ _id }}">
+                {{to.username}}
+                <p>{{text}}</p>
+                <p>{{created_at_pretty}}</p>
+                {{#if state}}<span class="badge badge-primary">{{state}}</span>{{/if}}
+            </a>
+            </li>
+
+            {{/each}}
+        </ul>
+        <nav class="bar bar-tab">
+          <a class="tab-item" href="#friends">
+            <span class="icon icon-person"></span>
+            <span class="tab-label">Friends</span>
+          </a>
+          <a class="tab-item" href="#messages">
+            <span class="icon icon-pages"></span>
+            <span class="tab-label">Messages</span>
+          </a>
+          <a class="tab-item active" href="#deliverings">
+            <span class="icon icon-star-filled"></span>
+            <span class="tab-label">Delievering</span>
+          </a>
+          <a class="tab-item" href="#setting">
+            <span class="icon icon-gear"></span>
+            <span class="tab-label">Settings</span>
+          </a>
+        </nav>
         </script>
 
         <script id="messages-tpl" type="text/template">
@@ -124,9 +229,11 @@
                 {{from.username}}
                 <p>{{text}}</p>
                 <p>{{created_at_pretty}}</p>
+                {{#if isArrived}}<span class="badge badge-primary">Unread</span>
+                {{else}}
+                {{/if}}            
             </a>
             </li>
-
             {{/each}}
         </ul>
         <nav class="bar bar-tab">
@@ -138,7 +245,7 @@
             <span class="icon icon-pages"></span>
             <span class="tab-label">Messages</span>
           </a>
-          <a class="tab-item" href="#outgoing">
+          <a class="tab-item" href="#deliverings">
             <span class="icon icon-star-filled"></span>
             <span class="tab-label">Delievering</span>
           </a>
@@ -151,8 +258,8 @@
 
         <script id="new-message-tpl" type="text/template">
         <div class="content-padded">
-          <textarea id="text" rows="15" placeholder="googoogoogoo" required></textarea>
           <h1 id="text-length" style="color:#bbb; text-align:center">0</h1>
+          <textarea id="text" rows="10" placeholder="googoogoogoo" required></textarea>
         </div>
         <div class="bar bar-standard bar-footer">
           <button class="btn btn-positive btn-block" id="send">Send a Pigeon</button>
@@ -179,6 +286,9 @@
                     <div class="media-body">
                         {{username}}
                     </div>
+                    {{#if sending}}<span class="badge badge-negative">Unavailable</span>
+                    {{else}}<span class="badge badge-positive">Available</span>
+                    {{/if}}
                 </a>
             </li>
             {{/each}}
@@ -192,7 +302,7 @@
             <span class="icon icon-pages"></span>
             <span class="tab-label">Messages</span>
           </a>
-          <a class="tab-item" href="#outgoing">
+          <a class="tab-item" href="#deliverings">
             <span class="icon icon-star-filled"></span>
             <span class="tab-label">Delievering</span>
           </a>
@@ -204,19 +314,63 @@
         </script>
 
         <script id="friend-tpl" type="text/template">
-        <div class="content-padded">
-          <h4>{{friend.username}}</h4>
+        <ul class="table-view">
+        <li class="table-view-cell media">
+          <div class="media-body">
+          {{friend.username}}
+          </div>
+        </li>
+        <li class="table-view-cell media">
+          <div class="media-body">
+          Address
           <p>{{friend.location.address}}</p>
-          <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.
-            longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>
-          
+          </div>
+        </li>
+        </ul>
+        <div class="content-padded">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>             
         </div>
         <div class="bar bar-standard bar-footer-secondary">
-          <a href="#newmessage/{{ friend.username }}"><button class="btn btn-block" id="send">Send a Message</button></a>
+          {{#if friend.sending}}
+          <button class="btn btn-block btn-positive">Your Message is Flying</button>
+          {{else}}
+          <a href="#newmessage/{{ friend.username }}">
+          <button class="btn btn-block btn-positive" id="send">Send a Message</button>
+          </a>
+          {{/if}}
         </div>
+      
         <div class="bar bar-standard bar-footer">
-          <button class="btn btn-block" id="block">Block This Friend</button>
+          <button class="btn btn-block btn-negative" id="block">Block This Friend</button>
         </div>
+        </script>
+
+        <script id="choose-friend-tpl" type="text/template">
+        <ul class="table-view">
+            <li class="table-view-divider">Friends</li>
+            {{#each friends}}
+            <li class="table-view-cell media" data-from={{username}}>
+              {{#if sending}}
+                <a class="navigate-right" onclick="window.alert('Your Pigeon is already flying to {{username}}')" >
+                    <span class="media-object pull-left icon icon-person"></span>
+                    <div class="media-body">
+                        {{username}}
+                    </div>
+                    <span class="badge badge-negative">Unavailable</span>
+                </a>
+              {{else}}
+                <a class="navigate-right" href="#newmessage/{{ username }}">
+                    <span class="media-object pull-left icon icon-person"></span>
+                    <div class="media-body">
+                        {{username}}
+                    </div>
+                    <span class="badge badge-positive">Available</span>
+                </a>
+              {{/if}}
+                
+            </li>
+            {{/each}}
+        </ul>
         </script>
 
         <script id="auth-tpl" type="text/template">
@@ -262,7 +416,7 @@
         <script src="lib/pageslider.js"></script>
         <script src="lib/fastclick.js"></script>
         <script src="lib/parsley.js"></script>
-        <script src="lib/pretty.js"></script>
+        <script src="lib/humane.js"></script>
         <script src="lib/async.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>

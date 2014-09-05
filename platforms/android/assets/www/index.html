@@ -82,12 +82,17 @@
         </script>
 
         <script id="incoming-message-tpl" type="text/template">
+        <div class="content-padded">
+        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
+        </div>
         <ul class="table-view">
-          <li class="table-view-cell media">
+        <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
             <div class="media-body">
               {{message.from.username}}
               <p>{{message.created_at_pretty}}</p>
+              <p>{{message.depart_pos.address}}</p>
+              <p>{{message.dest_pos.address}}</p>
             </div>
           </li>
           <li class="table-view-cell media">
@@ -103,11 +108,26 @@
           </li>
           <li class="table-view-cell media">
             <div class="media-body">
+            Destination Point
+            <p>{{message.dest_pos.address}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
+            Duration Time
+            <p>{{message.duration_time}}</p>
+            </div>
+          </li>
+          <li class="table-view-cell media">
+            <div class="media-body">
             Elapsed Time
             <p>{{message.elapsed_time}}</p>
             </div>
           </li>
-        </ul>
+           <li class="table-view-cell media">
+          " "
+          </li>
+          </ul>
         <div class="bar bar-standard bar-footer">
           {{#if sending}}
           <button class="btn btn-block btn-negative">Your Pigeon is Flying to {{message.from.username}}</button>
@@ -118,6 +138,9 @@
         </script>
 
         <script id="delivering-message-tpl" type="text/template">
+        <div class="content-padded">
+        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
+        </div>
         <ul class="table-view">
           <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
@@ -156,6 +179,9 @@
             Elapsed Time
             <p>{{message.elapsed_time}}</p>
             </div>
+          </li>
+          <li class="table-view-cell media">
+          " "
           </li>
         </ul>
 
@@ -288,12 +314,21 @@
         </script>
 
         <script id="friend-tpl" type="text/template">
-        <div class="content-padded">
-          <h4>{{friend.username}}</h4>
+        <ul class="table-view">
+        <li class="table-view-cell media">
+          <div class="media-body">
+          {{friend.username}}
+          </div>
+        </li>
+        <li class="table-view-cell media">
+          <div class="media-body">
+          Address
           <p>{{friend.location.address}}</p>
-          <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.
-            longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>
-          
+          </div>
+        </li>
+        </ul>
+        <div class="content-padded">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>             
         </div>
         <div class="bar bar-standard bar-footer-secondary">
           {{#if friend.sending}}
@@ -381,7 +416,7 @@
         <script src="lib/pageslider.js"></script>
         <script src="lib/fastclick.js"></script>
         <script src="lib/parsley.js"></script>
-        <script src="lib/pretty.js"></script>
+        <script src="lib/humane.js"></script>
         <script src="lib/async.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>

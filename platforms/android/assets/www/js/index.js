@@ -21,7 +21,7 @@
 var app = {
   // Application Constructor
   initialize: function() {
-    var server = 'http://hidden-lowlands-6115.herokuapp.com' //"http://192.168.0.104:8080"
+    var server = 'http://messanger-pigeon.herokuapp.com' //"http://192.168.0.104:8080"
     var slider = new PageSlider($('body'));
     var geocoder = new google.maps.Geocoder();
 
@@ -65,6 +65,11 @@ var app = {
 
     function getLocation(callback) {
       //event.preventDefault();
+      var options = options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 3000
+      };
       navigator.geolocation.getCurrentPosition(
           function(position) {
             callback(null, position)
@@ -73,7 +78,7 @@ var app = {
           function(error) {
             callback(error);
           },
-          { enableHighAccuracy: true }
+          options
         );
     }
 
@@ -182,6 +187,9 @@ var app = {
           } else {
             msg.created_at_pretty = humaneDate(msg.created_at);
             msg.elapsed_time = msToTime(msg.elapsed_mills);
+            msg.duration_time = msToTime(msg.duration_mills);
+
+            msg.width = window.screen.availWidth-30;
             $('body').html(headTpl({title:msg.from.username}));
             $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
@@ -222,6 +230,8 @@ var app = {
             msg.created_at_pretty = humaneDate(msg.created_at);
             msg.elapsed_time = msToTime(msg.elapsed_mills);
             msg.duration_time = msToTime(msg.duration_mills);
+            msg.width = window.screen.availWidth-30;
+
             $('body').html(headTpl({title:"To:" + msg.to.username}));
             $('div.content').html((deliveringMessageTpl({message:msg})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#deliverings"></a>');
@@ -306,7 +316,7 @@ var app = {
                       li.fadeOut("slow");
                       location.reload(true);
                   }
-                  else window.alert("fail to accept");
+                  else window.alert("Failed to accept");
               });
           }
         });
@@ -332,6 +342,7 @@ var app = {
         $('div.content').html(signTpl());
         var form = $(".sign-group"); 
         $('#done', form).on('click', function(event) {
+          event.preventDefault();
           async.waterfall([
             function(callback){
               $("#done",form).attr("disabled","disabled");
@@ -361,11 +372,12 @@ var app = {
              // result now equals 'done'
             $("#done", form).removeAttr("disabled");
             if(err) {
-              window.alert(err.message);
+              window.alert("Failed to signup");
             }
             else {
               window.localStorage["username"] = result.username;
               window.location="index.html";
+              window.alert("Welcome to Carrier Pigeon, " + result.username + " !!!!");
             }  
           });
         }); // end of click
@@ -375,8 +387,8 @@ var app = {
 
     router.addRoute('signin', function() {
       if (window.localStorage.getItem("username")){
-        return;
         window.location="";
+        return;
       }
       getLocation(function(err, position) {
         var loc;
@@ -394,6 +406,7 @@ var app = {
         $('div.content').html(signTpl());
         var form = $(".sign-group");
         $('#done', form).on('click', function(event) {
+          event.preventDefault();
           async.waterfall([
             function(callback){
               $("#done",form).attr("disabled","disabled");
@@ -426,7 +439,6 @@ var app = {
              // result now equals 'done'
             $("#done", form).removeAttr("disabled");
             if(err) {
-              console.log(err);
               window.alert(err.message);
             }
             else {
@@ -475,6 +487,35 @@ var app = {
       
     });
 
+    router.addRoute('updatelocation', function() {
+      async.waterfall([
+        function(callback) {
+          getLocation(function(err, result) {
+            if(err) callback(err);
+            var loc = {latitude:result.coords.latitude, longitude:result.coords.longitude};
+            callback(null, loc);
+          });
+        }, 
+        function(loc, callback) {
+          getAddress(loc.latitude, loc.longitude, function(err, address) {
+            if(err) callback(err)              
+            else {
+              loc.address = address;
+              callback(null, loc); 
+            }
+          });
+        },
+        function(loc, callback) {
+          $.post(server + "/update-location", {username:window.localStorage['username'], location:loc}, function(res) {
+            if(res.success) callback(null, res.user);
+            else callback(new Error("can't update the location"));
+          })
+        }], 
+        function(err, result) {
+          if(err) window.alert("Failed to Update Your Location")
+          else window.alert("Your Location is Updated")
+        });
+    });
 
     router.start();
     this.bindEvents();

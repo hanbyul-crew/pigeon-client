@@ -21,7 +21,7 @@
 var app = {
   // Application Constructor
   initialize: function() {
-    var server = "http://192.168.0.104:8080"
+    var server = 'http://messanger-pigeon.herokuapp.com' //"http://192.168.0.104:8080"
     var slider = new PageSlider($('body'));
     var geocoder = new google.maps.Geocoder();
 
@@ -34,7 +34,9 @@ var app = {
     var newMessageTpl = Handlebars.compile($("#new-message-tpl").html());
     var messagesTpl = Handlebars.compile($("#messages-tpl").html());
     var incomingMessageTpl = Handlebars.compile($("#incoming-message-tpl").html());
-
+    var deliveringMessageTpl = Handlebars.compile($("#delivering-message-tpl").html());
+    var deliveringMessagesTpl = Handlebars.compile($("#delivering-messages-tpl").html());
+    var chooseFriendTpl = Handlebars.compile($("#choose-friend-tpl").html());
     /*
     // Check if HTML5 location support exists
     app.geolocation = false;
@@ -52,8 +54,8 @@ var app = {
       });
     }
 
-    function loadIncomingMessages(username, callback) {
-      $.post(server+'/get-outgoing-messages', {username:username}, function(res) {
+    function loadDeliveringMessages(username, callback) {
+      $.post(server+'/get-delivering-messages', {username:username}, function(res) {
         if(res.success) {
            callback(null, res.messages);
         }
@@ -63,6 +65,11 @@ var app = {
 
     function getLocation(callback) {
       //event.preventDefault();
+      var options = options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 3000
+      };
       navigator.geolocation.getCurrentPosition(
           function(position) {
             callback(null, position)
@@ -71,7 +78,7 @@ var app = {
           function(error) {
             callback(error);
           },
-          { enableHighAccuracy: true }
+          options
         );
     }
 
@@ -88,6 +95,7 @@ var app = {
     }
 
     function msToTime(s) {
+
       var ms = s % 1000;
       s = (s - ms) / 1000;
       var secs = s % 60;
@@ -95,8 +103,9 @@ var app = {
       var mins = s % 60;
       var hrs = (s - mins) / 60;
 
-      return hrs + ':' + mins + ':' + secs + '.' + ms;
+      return hrs + ':' + mins + ':' + secs
     }
+
     
     //home
     router.addRoute('', function(){
@@ -129,10 +138,14 @@ var app = {
         }
         else {
           messages.forEach(function(m) {
-            m.created_at_pretty = prettyDate(m.created_at)
+            console.log(new Date(m.created_at))
+            m.created_at_pretty = humaneDate(m.created_at)
+            if(m.state === "arrived") m.isArrived = true; 
+            else m.isArrived = false;
           })
           $('body').html(headTpl({title:'Incoming Messages'}));
           $('div.content').html(messagesTpl({messages:messages}));
+          $('header').append('<a class="icon icon-compose pull-right" href="#choosefriend/messages"></a>');
         }
       });
     })
@@ -142,7 +155,10 @@ var app = {
         function(callback) {
           $.post(server+'/friend', {username:window.localStorage.getItem("username"), friendname:friendname}, function(res) {
             if(!res.success) callback(res.err);
-            else callback(null, res.friend);
+            else {
+              res.friend.sending = res.sending;
+              callback(null, res.friend);
+            }
             });
           }
         ], function(err, friend) {
@@ -153,7 +169,6 @@ var app = {
             friend.width = window.screen.availWidth-30;
             $('div.content').html((friendTpl({friend:friend})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#friends"></a>');
-
           }
         });
     })
@@ -161,7 +176,49 @@ var app = {
     router.addRoute('message/:id', function(id) {
       async.waterfall([
         function(callback) {
-          $.post(server+'/get-message', {username:window.localStorage.getItem("username"), id:id}, function(res) {
+          $.post(server+'/get-message', {username:window.localStorage.getItem("username"), id:id, state:'read', type:'incoming'}, function(res) {
+            if(!res.success) callback(res.err);
+            else callback(null, res.message, res.sending);
+            });
+          }
+        ], function(err, msg, sending) {
+          if(err) {
+            window.alert(err.message);
+          } else {
+            msg.created_at_pretty = humaneDate(msg.created_at);
+            msg.elapsed_time = msToTime(msg.elapsed_mills);
+            msg.duration_time = msToTime(msg.duration_mills);
+
+            msg.width = window.screen.availWidth-30;
+            $('body').html(headTpl({title:"From: " + msg.from.username}));
+            $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
+            $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
+          }
+        });
+    });
+
+    router.addRoute('deliverings', function(id) {
+      loadDeliveringMessages(window.localStorage.getItem("username"), function(err, messages) {
+        if(err) {
+          window.alert("Cannot get messages");
+          window.location ="";
+        }
+        else {
+          messages.forEach(function(m) {
+            m.created_at_pretty = humaneDate(m.created_at)
+          })
+          $('body').html(headTpl({title:'Delivering Messages'}));
+          $('div.content').html(deliveringMessagesTpl({messages:messages}));
+          $('header').append('<a class="icon icon-compose pull-right" href="#choosefriend/deliverings"></a>');
+        }
+      });
+    });
+
+    router.addRoute('delivering/:id', function(id) {
+      async.waterfall([
+        function(callback) {
+          $.post(server+'/get-message', 
+            {username:window.localStorage.getItem("username"), id:id}, function(res) {
             if(!res.success) callback(res.err);
             else callback(null, res.message);
             });
@@ -170,17 +227,31 @@ var app = {
           if(err) {
             window.alert(err.message);
           } else {
-            msg.created_at_pretty = prettyDate(msg.created_at);
-            $('body').html(headTpl({title:msg.from.username}));
-            $('div.content').html((incomingMessageTpl({message:msg})));
-            $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
+            msg.created_at_pretty = humaneDate(msg.created_at);
+            msg.elapsed_time = msToTime(msg.elapsed_mills);
+            msg.duration_time = msToTime(msg.duration_mills);
+            msg.width = window.screen.availWidth-30;
+
+            $('body').html(headTpl({title:"To:" + msg.to.username}));
+            $('div.content').html((deliveringMessageTpl({message:msg})));
+            $('header').append('<a class="icon icon-left-nav pull-left" href="#deliverings"></a>');
           }
         });
     });
 
-    router.addRoute('messages/:friendname', function(friendname) {
-
+    router.addRoute('choosefriend/:lastPage', function(lastPage) {
+      $.post(server+'/friends', {username:window.localStorage.getItem("username")}, function(res) {
+          if(!res.success) window.alert(res.err);
+          else if(!res.friends) res.friends = [];
+          else {
+            $('body').html(headTpl({title:'Choose a friend'}));
+            $('header').append('<a class="icon icon-left-nav pull-left" href="#' + lastPage + '"></a><div class="bar bar-standard bar-header-secondary"><input id="searchfriend" type="search" placeholder="Search"></div>');
+            $('div.content').html(chooseFriendTpl({friends:res.friends}));
+          }
+        });
     });
+
+
 
   router.addRoute('friends', function() {
     if(!window.localStorage.getItem("username")) return window.location = "index.html";
@@ -205,8 +276,9 @@ var app = {
       if(err) window.alert(err.message);
       else {
         $('body').html(headTpl({title:'Friends'}));
+        $('header').append('<a class="icon icon-compose pull-right" href="#choosefriend/friends"></a>');
         $('header').append('<div class="bar bar-standard bar-header-secondary"><input id="addfriend" type="search" placeholder="Add a Friend"></div>');
-        result.requests.forEach(function(f) {f.created_at_pretty = prettyDate(f.created_at)})
+        result.requests.forEach(function(f) {f.created_at_pretty = humaneDate(f.created_at)})
         $('div.content').html(friendsTpl({requests:result.requests, friends:result.friends}));
 
         $('#addfriend').keypress(function(e) {
@@ -242,8 +314,9 @@ var app = {
               function(res) {
                   if(res.success){
                       li.fadeOut("slow");
+                      location.reload(true);
                   }
-                  else window.alert("fail to accept");
+                  else window.alert("Failed to accept");
               });
           }
         });
@@ -269,6 +342,7 @@ var app = {
         $('div.content').html(signTpl());
         var form = $(".sign-group"); 
         $('#done', form).on('click', function(event) {
+          event.preventDefault();
           async.waterfall([
             function(callback){
               $("#done",form).attr("disabled","disabled");
@@ -298,11 +372,12 @@ var app = {
              // result now equals 'done'
             $("#done", form).removeAttr("disabled");
             if(err) {
-              window.alert(err.message);
+              window.alert("Failed to signup");
             }
             else {
               window.localStorage["username"] = result.username;
               window.location="index.html";
+              window.alert("Welcome to Carrier Pigeon, " + result.username + " !!!!");
             }  
           });
         }); // end of click
@@ -312,8 +387,8 @@ var app = {
 
     router.addRoute('signin', function() {
       if (window.localStorage.getItem("username")){
-        return;
         window.location="";
+        return;
       }
       getLocation(function(err, position) {
         var loc;
@@ -331,6 +406,7 @@ var app = {
         $('div.content').html(signTpl());
         var form = $(".sign-group");
         $('#done', form).on('click', function(event) {
+          event.preventDefault();
           async.waterfall([
             function(callback){
               $("#done",form).attr("disabled","disabled");
@@ -363,8 +439,7 @@ var app = {
              // result now equals 'done'
             $("#done", form).removeAttr("disabled");
             if(err) {
-              console.log(err);
-              window.alert(err.message);
+              window.alert("Invalid Username or Password");
             }
             else {
               window.localStorage["username"] = result.user.username;
@@ -390,23 +465,57 @@ var app = {
       if(!window.localStorage.getItem("username")) return;
 
       $('body').html(headTpl({title:"To: " + friendname}));
+      $('header').append('<a class="icon icon-left-nav pull-left" href="#messages">');
       $('div.content').html(newMessageTpl({friendname:friendname}));
       $('#text').keypress(function() {
         $('#text-length').html($('#text').val().length);
       });
+
       // when enter send message;
       $('#send').on('click' ,function() {
         var to = friendname;
         var text = $('#text').val();
         var username = window.localStorage.getItem('username');
         $.post(server + "/send-message", {to:to, text:text, username:username}, function(res) {
-          if (res.success) console.log(res.result);
-          else window.alert("failed to send this message");
+          if (res.success) {
+            window.location = "index.html#delivering/" + res.message._id;
+          }else {
+            window.alert("failed to send this message");
+          }
         });
       });
       
     });
 
+    router.addRoute('updatelocation', function() {
+      async.waterfall([
+        function(callback) {
+          getLocation(function(err, result) {
+            if(err) callback(err);
+            var loc = {latitude:result.coords.latitude, longitude:result.coords.longitude};
+            callback(null, loc);
+          });
+        }, 
+        function(loc, callback) {
+          getAddress(loc.latitude, loc.longitude, function(err, address) {
+            if(err) callback(err)              
+            else {
+              loc.address = address;
+              callback(null, loc); 
+            }
+          });
+        },
+        function(loc, callback) {
+          $.post(server + "/update-location", {username:window.localStorage['username'], location:loc}, function(res) {
+            if(res.success) callback(null, res.user);
+            else callback(new Error("can't update the location"));
+          })
+        }], 
+        function(err, result) {
+          if(err) window.alert("Failed to Update Your Location")
+          else window.alert("Your Location is Updated")
+        });
+    });
 
     router.start();
     this.bindEvents();
@@ -425,7 +534,7 @@ var app = {
   onDeviceReady: function() {
       app.receivedEvent('deviceready');
       
-      StatusBar.overlaysWebView( false );
+      StatusBar.overlaysWebView( true );
       StatusBar.backgroundColorByHexString('#ffffff');
       StatusBar.styleDefault();
 
