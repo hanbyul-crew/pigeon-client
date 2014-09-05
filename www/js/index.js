@@ -419,7 +419,6 @@ var app = {
                 getAddress(loc.latitude, loc.longitude, function(err, address) {
                   if(err) loc = null;
                   else loc.address = address;
-                  console.log(loc);
                   callback(null, u,p)
                 });
               } else {
@@ -440,7 +439,6 @@ var app = {
              // result now equals 'done'
             $("#done", form).removeAttr("disabled");
             if(err) {
-              console.log(err);
               window.alert(err.message);
             }
             else {
