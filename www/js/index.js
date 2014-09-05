@@ -21,7 +21,7 @@
 var app = {
   // Application Constructor
   initialize: function() {
-    var server = 'http://messanger-pigeon.herokuapp.com/' //"http://192.168.0.104:8080"
+    var server = 'http://messanger-pigeon.herokuapp.com' //"http://192.168.0.104:8080"
     var slider = new PageSlider($('body'));
     var geocoder = new google.maps.Geocoder();
 
