@@ -366,6 +366,7 @@ var app = {
             else {
               window.localStorage["username"] = result.username;
               window.location="index.html";
+              window.alert("Welcome to Carrier Pigeon, " + result.username + " !!!!");
             }  
           });
         }); // end of click
