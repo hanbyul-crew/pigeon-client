@@ -65,6 +65,11 @@ var app = {
 
     function getLocation(callback) {
       //event.preventDefault();
+      var options = options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 3000
+      };
       navigator.geolocation.getCurrentPosition(
           function(position) {
             callback(null, position)
@@ -73,7 +78,7 @@ var app = {
           function(error) {
             callback(error);
           },
-          { enableHighAccuracy: true }
+          options
         );
     }
 
@@ -337,6 +342,7 @@ var app = {
         $('div.content').html(signTpl());
         var form = $(".sign-group"); 
         $('#done', form).on('click', function(event) {
+          event.preventDefault();
           async.waterfall([
             function(callback){
               $("#done",form).attr("disabled","disabled");
@@ -381,8 +387,8 @@ var app = {
 
     router.addRoute('signin', function() {
       if (window.localStorage.getItem("username")){
-        return;
         window.location="";
+        return;
       }
       getLocation(function(err, position) {
         var loc;
@@ -400,6 +406,7 @@ var app = {
         $('div.content').html(signTpl());
         var form = $(".sign-group");
         $('#done', form).on('click', function(event) {
+          event.preventDefault();
           async.waterfall([
             function(callback){
               $("#done",form).attr("disabled","disabled");
@@ -412,6 +419,7 @@ var app = {
                 getAddress(loc.latitude, loc.longitude, function(err, address) {
                   if(err) loc = null;
                   else loc.address = address;
+                  console.log(loc);
                   callback(null, u,p)
                 });
               } else {
