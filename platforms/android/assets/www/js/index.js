@@ -100,6 +100,7 @@ var app = {
 
       return hrs + ':' + mins + ':' + secs
     }
+
     
     //home
     router.addRoute('', function(){
@@ -132,7 +133,8 @@ var app = {
         }
         else {
           messages.forEach(function(m) {
-            m.created_at_pretty = prettyDate(m.created_at)
+            console.log(new Date(m.created_at))
+            m.created_at_pretty = humaneDate(m.created_at)
             if(m.state === "arrived") m.isArrived = true; 
             else m.isArrived = false;
           })
@@ -178,7 +180,7 @@ var app = {
           if(err) {
             window.alert(err.message);
           } else {
-            msg.created_at_pretty = prettyDate(msg.created_at);
+            msg.created_at_pretty = humaneDate(msg.created_at);
             msg.elapsed_time = msToTime(msg.elapsed_mills);
             $('body').html(headTpl({title:msg.from.username}));
             $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
@@ -195,10 +197,11 @@ var app = {
         }
         else {
           messages.forEach(function(m) {
-            m.created_at_pretty = prettyDate(m.created_at)
+            m.created_at_pretty = humaneDate(m.created_at)
           })
           $('body').html(headTpl({title:'Delivering Messages'}));
           $('div.content').html(deliveringMessagesTpl({messages:messages}));
+          $('header').append('<a class="icon icon-compose pull-right" href="#choosefriend/deliverings"></a>');
         }
       });
     });
@@ -216,7 +219,7 @@ var app = {
           if(err) {
             window.alert(err.message);
           } else {
-            msg.created_at_pretty = prettyDate(msg.created_at);
+            msg.created_at_pretty = humaneDate(msg.created_at);
             msg.elapsed_time = msToTime(msg.elapsed_mills);
             msg.duration_time = msToTime(msg.duration_mills);
             $('body').html(headTpl({title:"To:" + msg.to.username}));
@@ -265,7 +268,7 @@ var app = {
         $('body').html(headTpl({title:'Friends'}));
         $('header').append('<a class="icon icon-compose pull-right" href="#choosefriend/friends"></a>');
         $('header').append('<div class="bar bar-standard bar-header-secondary"><input id="addfriend" type="search" placeholder="Add a Friend"></div>');
-        result.requests.forEach(function(f) {f.created_at_pretty = prettyDate(f.created_at)})
+        result.requests.forEach(function(f) {f.created_at_pretty = humaneDate(f.created_at)})
         $('div.content').html(friendsTpl({requests:result.requests, friends:result.friends}));
 
         $('#addfriend').keypress(function(e) {
