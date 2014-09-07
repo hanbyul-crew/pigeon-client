@@ -331,3 +331,18 @@ You could find it at the following address https://developer.apple.com/icloud/do
 2014-09-06 04:47:04.056 Pigeon[6015:70b] Resetting plugins due to page load.
 2014-09-06 04:47:04.752 Pigeon[6015:70b] Finished load of: file:///Users/MACiNO/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/C588BAC4-D758-4592-A929-BC485E2052B1/Pigeon.app/www/index.html#friends
 Terminating in response to SpringBoard's termination.
+2014-09-08 00:13:23.934 Pigeon[12213:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-08 00:13:23.974 Pigeon[12213:70b] Unlimited access to network resources
+2014-09-08 00:13:23.979 Pigeon[12213:70b] 
+
+Started backup to iCloud! Please be careful.
+Your application might rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines"
+You could find it at the following address https://developer.apple.com/icloud/documentation/data-storage/ .
+
+2014-09-08 00:13:24.209 Pigeon[12213:70b] [CDVTimer][statusbar] 58.255017ms
+2014-09-08 00:13:24.209 Pigeon[12213:70b] [CDVTimer][TotalPluginStartup] 58.735967ms
+2014-09-08 00:13:24.430 Pigeon[12213:70b] Resetting plugins due to page load.
+2014-09-08 00:13:26.530 Pigeon[12213:70b] Finished load of: file:///Users/MACiNO/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/C588BAC4-D758-4592-A929-BC485E2052B1/Pigeon.app/www/index.html#friends
+2014-09-08 00:13:26.915 Pigeon[12213:70b] THREAD WARNING: ['Device'] took '53.972168' ms. Plugin should use a background thread.
+Terminating in response to SpringBoard's termination.
