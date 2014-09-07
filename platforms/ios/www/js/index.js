@@ -190,7 +190,7 @@ var app = {
             msg.duration_time = msToTime(msg.duration_mills);
 
             msg.width = window.screen.availWidth-30;
-            $('body').html(headTpl({title:"From: " + msg.from.username}));
+            $('body').html(headTpl({title:"From:" + msg.from.username}));
             $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
           }
