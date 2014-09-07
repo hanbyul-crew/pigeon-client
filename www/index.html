@@ -28,8 +28,10 @@
         <link href="assets/ratchet/css/ratchet.css" rel="stylesheet">
         <link href="assets/ratchet/css/ratchet-theme-ios.css" rel="stylesheet">
         <link href="css/pageslider.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
         <meta name="msapplication-tap-highlight" content="no" />
         <script src="assets/ratchet/js/ratchet.js"></script>
+
         <title>Pigeon</title>
     </head>
     <body>
@@ -82,9 +84,8 @@
         </script>
 
         <script id="incoming-message-tpl" type="text/template">
-        <div class="content-padded">
-        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
-        </div>
+          <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
+        
         <ul class="table-view">
         <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
@@ -138,9 +139,8 @@
         </script>
 
         <script id="delivering-message-tpl" type="text/template">
-        <div class="content-padded">
-        <img src="http://placehold.it/{{message.width}}x{{message.width}}" style="display: block;margin-left: auto;margin-right: auto;">
-        </div>
+        
+        <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
         <ul class="table-view">
           <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
@@ -415,6 +415,8 @@
         <script src="lib/jquery-2.1.1.js"></script>
         <script src="lib/handlebars-v1.3.0.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrIscQtzoPxX57_haL5J4swSA0Lxa7lfU"></script>
+        <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script type="text/javascript" src="lib/map.js"></script>
         <script src="lib/router.js"></script>
         <script src="lib/pageslider.js"></script>
         <script src="lib/fastclick.js"></script>

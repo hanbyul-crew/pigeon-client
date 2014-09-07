@@ -189,10 +189,12 @@ var app = {
             msg.elapsed_time = msToTime(msg.elapsed_mills);
             msg.duration_time = msToTime(msg.duration_mills);
 
-            msg.width = window.screen.availWidth-30;
+            msg.width = window.screen.availWidth;
             $('body').html(headTpl({title:"From:" + msg.from.username}));
             $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
+            drawMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
+              msg.duration_mills, msg.elapsed_mills)
           }
         });
     });
@@ -230,11 +232,13 @@ var app = {
             msg.created_at_pretty = humaneDate(msg.created_at);
             msg.elapsed_time = msToTime(msg.elapsed_mills);
             msg.duration_time = msToTime(msg.duration_mills);
-            msg.width = window.screen.availWidth-30;
+            msg.width = window.screen.availWidth;
 
             $('body').html(headTpl({title:"To:" + msg.to.username}));
             $('div.content').html((deliveringMessageTpl({message:msg})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#deliverings"></a>');
+            drawMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
+              msg.duration_mills, msg.elapsed_mills)
           }
         });
     });
