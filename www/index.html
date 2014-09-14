@@ -328,7 +328,10 @@
         </li>
         </ul>
         <div class="content-padded">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>             
+        
+        <img src="http://api.tiles.mapbox.com/v4/hanbyulhere.j8f7eihh/pin-s-bus+f44({{friend.location.longitude}},{{friend.location.latitude}},13)/{{friend.location.longitude}},{{friend.location.latitude}},13/480x480.png?access_token=pk.eyJ1IjoiaGFuYnl1bGhlcmUiLCJhIjoiRXNUb2FGdyJ9.lJ4KY1vAdxBmTLMq6HMKEA">
+
+
         </div>
         <div class="bar bar-standard bar-footer-secondary">
           {{#if friend.sending}}
