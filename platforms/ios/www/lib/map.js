@@ -53,7 +53,7 @@ function drawMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
   }
 
   L.tileLayer('http://{s}.tiles.mapbox.com/v3/hanbyulhere.j8f7eihh/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      //attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 8,
       minZoom: 3
   }).addTo(map);

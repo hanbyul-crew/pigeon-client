@@ -56,7 +56,9 @@
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/assets/ratchet/js/ratchet.min.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/css/index.css \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/css/pageslider.css \
-/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/img/logo.png \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/img/logo-backup.png \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/img/pigeon-backup.png \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/img/pigeon.png \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/js/index.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/js/redis-setting.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/async.js \
@@ -66,6 +68,7 @@
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/jquery-2.1.1.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/jquery-2.1.1.min.map \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/jquery.mobile-1.4.3.min.js \
+/Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/map.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/page.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/pageslider.js \
 /Users/MACiNO/Dropbox/2014_summer/pigeon/client/pigeon/platforms/android/assets/www/lib/parsley.js \

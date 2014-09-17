@@ -308,7 +308,7 @@ var app = {
           } // when entered
           }); // end of add friend
 
-        $('div.toggle').on("toggle", function(e) {
+        $('.btn.accept').on("click", function(e) {
           var el = $(this);
           if (el.hasClass('active')) {
               var li = $(this).parent(); 

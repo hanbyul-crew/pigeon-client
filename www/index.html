@@ -273,9 +273,7 @@
             <li class="table-view-cell media" data-from={{from.username}}>
                 {{from.username}}
                 <p>{{created_at_pretty}}</p>
-            <div class="toggle">
-              <div class="toggle-handle"></div>
-            </div>
+            <button class="btn accept">Accept</button></li>
             </li>
             {{/each}}
             <li class="table-view-divider">Friends</li>
@@ -286,7 +284,7 @@
                     <div class="media-body">
                         {{username}}
                     </div>
-                    {{#if sending}}<span class="badge badge-negative">Unavailable</span>
+                    {{#if sending}}<span class="badge badge-negative">Busy</span>
                     {{else}}<span class="badge badge-positive">Available</span>
                     {{/if}}
                 </a>
@@ -356,7 +354,7 @@
                     <div class="media-body">
                         {{username}}
                     </div>
-                    <span class="badge badge-negative">Unavailable</span>
+                    <span class="badge badge-negative">Busy</span>
                 </a>
               {{else}}
                 <a class="navigate-right" href="#newmessage/{{ username }}">
@@ -375,7 +373,7 @@
 
         <script id="auth-tpl" type="text/template">
         
-          <img src="img/pigeon.png" style="display: block;margin-left: auto;margin-right: auto;">
+          <img src="img/pigeon.png" style="max-width:100%; max-height:100%; display: block;margin-left: auto;margin-right: auto;">
         
         <ul class="table-view">
             <li class="table-view-cell media">

@@ -44,9 +44,10 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <access origin="http://hidden-lowlands-6115.herokuapp.com/" />
+    <access origin="http://pigeon-carrier.heroku.com/" />
     <plugin name="Geolocation" value="CDVLocation" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <icon src="res/icon.png" />
 </widget>
