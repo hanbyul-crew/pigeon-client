@@ -193,6 +193,8 @@ var app = {
             $('body').html(headTpl({title:"From:" + msg.from.username}));
             $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
+            
+            getPoint(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude);
             drawMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
               msg.duration_mills, msg.elapsed_mills)
           }
@@ -237,6 +239,8 @@ var app = {
             $('body').html(headTpl({title:"To:" + msg.to.username}));
             $('div.content').html((deliveringMessageTpl({message:msg})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#deliverings"></a>');
+
+            getPoint(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude);
             drawMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
               msg.duration_mills, msg.elapsed_mills)
           }
