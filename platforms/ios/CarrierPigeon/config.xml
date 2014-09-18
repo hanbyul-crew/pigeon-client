@@ -35,7 +35,11 @@
     <feature name="Geolocation">
         <param name="ios-package" value="CDVLocation" />
     </feature>
-    <name>Pigeon</name>
+    <feature name="SplashScreen">
+        <param name="ios-package" value="CDVSplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>CarrierPigeon</name>
     <description>
 		the slowest messanger ever.
     </description>

@@ -308,21 +308,21 @@ var app = {
           } // when entered
           }); // end of add friend
 
-        $('.btn.accept').on("click", function(e) {
+        $('.accept').on("click", function(e) {
           var el = $(this);
-          if (el.hasClass('active')) {
-              var li = $(this).parent(); 
-              var from = li.data('from');
-              $.post(server + '/accept', 
-                  {username:window.localStorage.getItem('username'), friend:from},
-              function(res) {
-                  if(res.success){
-                      li.fadeOut("slow");
-                      location.reload(true);
-                  }
-                  else window.alert("Failed to accept");
-              });
-          }
+          
+          var li = $(this).parent(); 
+          var from = li.data('from');
+          $.post(server + '/accept', 
+              {username:window.localStorage.getItem('username'), friend:from},
+          function(res) {
+              if(res.success){
+                  li.fadeOut("slow");
+                  location.reload(true);
+              }
+              else window.alert("Failed to accept");
+          });
+          
         });
       }
     });

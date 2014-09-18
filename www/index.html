@@ -30,6 +30,7 @@
         <link href="css/pageslider.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
         <meta name="msapplication-tap-highlight" content="no" />
+        <link rel=”shortcut icon” href=”img/favicon.ico” type=”image/x-icon” />
         <script src="assets/ratchet/js/ratchet.js"></script>
 
         <title>Pigeon</title>
@@ -147,8 +148,6 @@
             <div class="media-body">
               {{message.to.username}}
               <p>{{message.created_at_pretty}}</p>
-              <p>{{message.depart_pos.address}}</p>
-              <p>{{message.dest_pos.address}}</p>
             </div>
           </li>
           <li class="table-view-cell media">
@@ -273,19 +272,20 @@
             <li class="table-view-cell media" data-from={{from.username}}>
                 {{from.username}}
                 <p>{{created_at_pretty}}</p>
-            <button class="btn accept">Accept</button></li>
+            <button class="btn accept">Accept Request</button></li>
             </li>
             {{/each}}
             <li class="table-view-divider">Friends</li>
             {{#each friends}}
             <li class="table-view-cell media" data-from={{username}}>
                 <a class="navigate-right" href="#friend/{{ username }}">
-                    <span class="media-object pull-left icon icon-person"></span>
+                    <img class="media-object pull-left" src="img/friend_icon_{{icon}}.png" style="width:42px;height:42px;">
                     <div class="media-body">
                         {{username}}
+                        <p>{{address}}</p>
                     </div>
                     {{#if sending}}<span class="badge badge-negative">Busy</span>
-                    {{else}}<span class="badge badge-positive">Available</span>
+                    {{else}}<span class="badge badge-positive">Idle</span>
                     {{/if}}
                 </a>
             </li>
@@ -326,11 +326,20 @@
         </li>
         </ul>
         <div class="content-padded">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>             
+        {{#if friend.sending}}
+        <a href="#deliverings">
+        <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
+        </a>
+        {{else}}
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>
+        {{/if}}
         </div>
+
         <div class="bar bar-standard bar-footer-secondary">
           {{#if friend.sending}}
-          <button class="btn btn-block btn-positive">Your Message is Flying</button>
+          <a href="#deliverings">
+          <button class="btn btn-block btn-positive">Your Message is Flying to {{friend.username}}</button>
+          </a>
           {{else}}
           <a href="#newmessage/{{ friend.username }}">
           <button class="btn btn-block btn-positive" id="send">Send a Message</button>
@@ -362,7 +371,7 @@
                     <div class="media-body">
                         {{username}}
                     </div>
-                    <span class="badge badge-positive">Available</span>
+                    <span class="badge badge-positive">Idle</span>
                 </a>
               {{/if}}
                 
@@ -373,7 +382,7 @@
 
         <script id="auth-tpl" type="text/template">
         
-          <img src="img/pigeon.png" style="max-width:100%; max-height:100%; display: block;margin-left: auto;margin-right: auto;">
+          <img src="img/pigeon.png" style="max-width:70%; max-height:70%; display: block;margin-left: auto;margin-right: auto;">
         
         <ul class="table-view">
             <li class="table-view-cell media">

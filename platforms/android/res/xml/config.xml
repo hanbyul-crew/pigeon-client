@@ -14,7 +14,7 @@
     <feature name="StatusBar">
         <param name="android-package" onload="true" value="org.apache.cordova.statusbar.StatusBar" />
     </feature>
-    <name>Pigeon</name>
+    <name>Carrier Pigeon</name>
     <description>
 		the slowest messanger ever.
     </description>
@@ -29,4 +29,7 @@
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <icon src="res/icon.png" />
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+    </feature>
 </widget>

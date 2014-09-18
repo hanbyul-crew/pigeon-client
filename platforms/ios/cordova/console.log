@@ -358,3 +358,45 @@ You could find it at the following address https://developer.apple.com/icloud/do
 2014-09-18 05:13:21.189 Pigeon[6096:70b] [CDVTimer][statusbar] 348.342001ms
 2014-09-18 05:13:21.190 Pigeon[6096:70b] [CDVTimer][TotalPluginStartup] 348.857999ms
 2014-09-18 05:13:21.329 Pigeon[6096:70b] Resetting plugins due to page load.
+2014-09-18 05:57:40.249 Pigeon[8341:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-18 05:57:40.276 Pigeon[8341:70b] Unlimited access to network resources
+2014-09-18 05:57:40.279 Pigeon[8341:70b] 
+
+Started backup to iCloud! Please be careful.
+Your application might rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines"
+You could find it at the following address https://developer.apple.com/icloud/documentation/data-storage/ .
+
+2014-09-18 05:57:40.458 Pigeon[8341:70b] [CDVTimer][statusbar] 50.619006ms
+2014-09-18 05:57:40.459 Pigeon[8341:70b] [CDVTimer][TotalPluginStartup] 51.101983ms
+2014-09-18 05:57:40.635 Pigeon[8341:70b] Resetting plugins due to page load.
+2014-09-18 05:57:41.469 Pigeon[8341:70b] Finished load of: file:///Users/MACiNO/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/C588BAC4-D758-4592-A929-BC485E2052B1/Pigeon.app/www/index.html
+Terminating in response to SpringBoard's termination.
+2014-09-18 06:05:26.166 CarrierPigeon[8962:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-18 06:05:26.194 CarrierPigeon[8962:70b] Unlimited access to network resources
+2014-09-18 06:05:26.200 CarrierPigeon[8962:70b] Fix applied for database locations?: YES
+2014-09-18 06:05:26.201 CarrierPigeon[8962:70b] 
+
+Started backup to iCloud! Please be careful.
+Your application might rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines"
+You could find it at the following address https://developer.apple.com/icloud/documentation/data-storage/ .
+
+2014-09-18 06:05:26.413 CarrierPigeon[8962:70b] [CDVTimer][statusbar] 77.540994ms
+2014-09-18 06:05:26.414 CarrierPigeon[8962:70b] [CDVTimer][TotalPluginStartup] 78.027010ms
+2014-09-18 06:05:26.523 CarrierPigeon[8962:70b] Resetting plugins due to page load.
+2014-09-18 06:05:27.717 CarrierPigeon[8962:70b] Finished load of: file:///Users/MACiNO/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/B9A4730D-1399-4B7A-9DC7-24F5DB6371C8/CarrierPigeon.app/www/index.html
+2014-09-18 06:43:01.584 CarrierPigeon[9443:70b] Multi-tasking -> Device: YES, App: YES
+2014-09-18 06:43:01.612 CarrierPigeon[9443:70b] Unlimited access to network resources
+2014-09-18 06:43:01.617 CarrierPigeon[9443:70b] 
+
+Started backup to iCloud! Please be careful.
+Your application might rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines"
+You could find it at the following address https://developer.apple.com/icloud/documentation/data-storage/ .
+
+2014-09-18 06:43:01.884 CarrierPigeon[9443:70b] [CDVTimer][statusbar] 110.430002ms
+2014-09-18 06:43:01.893 CarrierPigeon[9443:70b] [CDVTimer][splashscreen] 8.416951ms
+2014-09-18 06:43:01.895 CarrierPigeon[9443:70b] [CDVTimer][TotalPluginStartup] 121.403992ms
+2014-09-18 06:43:02.063 CarrierPigeon[9443:70b] Resetting plugins due to page load.
+2014-09-18 06:43:03.281 CarrierPigeon[9443:70b] Finished load of: file:///Users/MACiNO/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/B9A4730D-1399-4B7A-9DC7-24F5DB6371C8/CarrierPigeon.app/www/index.html
