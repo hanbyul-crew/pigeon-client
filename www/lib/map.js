@@ -33,6 +33,8 @@ var dist;
 var distDiv = 40;
 var defaultNum = 5;
 
+var persec;
+
 var dTotal;
 var totalStep;
 
@@ -79,10 +81,10 @@ function setZoomLevel(distNum){
     return 5;
 
   }else if( distNum <800){
-    return 4;
+    return 3;
 
   }else{
-    return 3;
+    return 1;
   }
 
 }
@@ -99,7 +101,7 @@ function getPoint(sLat, sLon, rLat, rLon){
   var tempGapX = nyGeocode.x - seoulGeocode.x;
   var tempGapY = nyGeocode.y - seoulGeocode.y;
 
-  geocodes = [nyGeocode,new Vector(nyGeocode.x - tempGapY/2,nyGeocode.y - tempGapY/2) ,seoulGeocode];
+  geocodes = [nyGeocode,new Vector(nyGeocode.x - tempGapY/8,nyGeocode.y-tempGapY/4) ,seoulGeocode];
 
   dist = getDistanceBtw(nyGeocode.x,nyGeocode.y,seoulGeocode.x,seoulGeocode.y);
   dTotal = defaultNum + dist/distDiv;
@@ -187,8 +189,8 @@ function drawMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
 
   //zoom part
 
-  var zoomLat = points[Math.floor(points.length/2)].x;
-  var zoomLon = points[Math.floor(points.length/2)].y;
+  var zoomLat = (nyGeocode.x+ seoulGeocode.x)/2;//points[Math.floor(points.length/2)].x;
+  var zoomLon = (nyGeocode.y + seoulGeocode.y)/2;//points[Math.floor(points.length/2)].y;
   var currGeocode = new Vector(currPosLat,currPosLon);
   var map = L.map('map',{
             center:[zoomLat, zoomLon],
@@ -197,7 +199,7 @@ function drawMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
 
   L.tileLayer('http://{s}.tiles.mapbox.com/v3/hanbyulhere.j8f7eihh/{z}/{x}/{y}.png', {
       maxZoom: 13,
-      minZoom: 4
+      minZoom: 1
   }).addTo(map);
 
 
