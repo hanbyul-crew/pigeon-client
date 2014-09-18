@@ -85,16 +85,14 @@
         </script>
 
         <script id="incoming-message-tpl" type="text/template">
-          <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
         
         <ul class="table-view">
+
         <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
             <div class="media-body">
               {{message.from.username}}
               <p>{{message.created_at_pretty}}</p>
-              <p>{{message.depart_pos.address}}</p>
-              <p>{{message.dest_pos.address}}</p>
             </div>
           </li>
           <li class="table-view-cell media">
@@ -126,9 +124,13 @@
             <p>{{message.elapsed_time}}</p>
             </div>
           </li>
-           <li class="table-view-cell media">
-          
+          <li>
+            <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
           </li>
+          <li>
+            <img src="img/arrived.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
+          </li>
+        
           </ul>
         <div class="bar bar-standard bar-footer">
           {{#if sending}}
@@ -141,14 +143,22 @@
 
         <script id="delivering-message-tpl" type="text/template">
         
-        <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
-        <ul class="table-view">
+        <ul class="table-view">        
+          <li>
+            <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
+            <p style="text-align:center">Pigeon is Flying {{message.elapsed_time}}</p>
+          </li>
+          <li>
+            <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
+          </li>
           <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
             <div class="media-body">
               {{message.to.username}}
               <p>{{message.created_at_pretty}}</p>
             </div>
+          </li>
+          <li>
           </li>
           <li class="table-view-cell media">
             <div class="media-body">
@@ -169,18 +179,9 @@
           </li>
           <li class="table-view-cell media">
             <div class="media-body">
-            Duration Time
-            <p>{{message.duration_time}}</p>
+            Remaining Time
+            <p>{{message.remaining_time}}</p>
             </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Elapsed Time
-            <p>{{message.elapsed_time}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-          
           </li>
         </ul>
 
@@ -312,6 +313,13 @@
         </script>
 
         <script id="friend-tpl" type="text/template">
+        {{#if friend.sending}}
+        <a href="#deliverings">
+        <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
+        </a>
+        {{else}}
+        <img src="http://api.tiles.mapbox.com/v4/hanbyulhere.j8f7eihh/pin-s-bus+f44({{friend.location.longitude}},{{friend.location.latitude}},13)/{{friend.location.longitude}},{{friend.location.latitude}},13/{{friend.width}}x{{friend.width}}.png?access_token=pk.eyJ1IjoiaGFuYnl1bGhlcmUiLCJhIjoiRXNUb2FGdyJ9.lJ4KY1vAdxBmTLMq6HMKEA" style="display: block;margin-left: auto;margin-right: auto;">
+        {{/if}}
         <ul class="table-view">
         <li class="table-view-cell media">
           <div class="media-body">
@@ -325,16 +333,6 @@
           </div>
         </li>
         </ul>
-        <div class="content-padded">
-        {{#if friend.sending}}
-        <a href="#deliverings">
-        <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
-        </a>
-        {{else}}
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{friend.location.latitude}},{{friend.location.longitude}}&zoom=9&size={{friend.width}}x{{friend.width}}&markers=color:blue%7Clabel:F%7C{{friend.location.latitude}},{{friend.location.longitude}}&sensor=false" style="display: block;margin-left: auto;margin-right: auto;"/>
-        {{/if}}
-        </div>
-
         <div class="bar bar-standard bar-footer-secondary">
           {{#if friend.sending}}
           <a href="#deliverings">
@@ -359,17 +357,19 @@
             <li class="table-view-cell media" data-from={{username}}>
               {{#if sending}}
                 <a class="navigate-right" onclick="window.alert('Your Pigeon is already flying to {{username}}')" >
-                    <span class="media-object pull-left icon icon-person"></span>
+                    <img class="media-object pull-left" src="img/friend_icon_{{icon}}.png" style="width:42px;height:42px;">
                     <div class="media-body">
                         {{username}}
+                        <p>{{address}}</p>
                     </div>
                     <span class="badge badge-negative">Busy</span>
                 </a>
               {{else}}
                 <a class="navigate-right" href="#newmessage/{{ username }}">
-                    <span class="media-object pull-left icon icon-person"></span>
-                    <div class="media-body">
+                <img class="media-object pull-left" src="img/friend_icon_{{icon}}.png" style="width:42px;height:42px;">                    
+                <div class="media-body">
                         {{username}}
+                        <p>{{address}}</p>
                     </div>
                     <span class="badge badge-positive">Idle</span>
                 </a>
@@ -423,7 +423,7 @@
         <script src="lib/handlebars-v1.3.0.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrIscQtzoPxX57_haL5J4swSA0Lxa7lfU"></script>
         <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-        <script type="text/javascript" src="lib/map.js"></script>
+        <script type="text/javascript" src="lib/map-new.js"></script>
         <script src="lib/router.js"></script>
         <script src="lib/pageslider.js"></script>
         <script src="lib/fastclick.js"></script>

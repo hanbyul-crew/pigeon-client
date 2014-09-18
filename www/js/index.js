@@ -103,7 +103,7 @@ var app = {
       var mins = s % 60;
       var hrs = (s - mins) / 60;
 
-      return hrs + ':' + mins + ':' + secs
+      return hrs + ' hours ' + mins + ' minutes ' + secs + ' seconds'
     }
 
     
@@ -166,7 +166,7 @@ var app = {
             window.alert(err.message);
           } else {
             $('body').html(headTpl({title:friend.username}));
-            friend.width = window.screen.availWidth-30;
+            friend.width = window.screen.availWidth;
             $('div.content').html((friendTpl({friend:friend})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#friends"></a>');
           }
@@ -193,7 +193,7 @@ var app = {
             $('body').html(headTpl({title:"From:" + msg.from.username}));
             $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
-            drawMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
+            startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
               msg.duration_mills, msg.elapsed_mills)
           }
         });
@@ -230,14 +230,14 @@ var app = {
             window.alert(err.message);
           } else {
             msg.created_at_pretty = humaneDate(msg.created_at);
+            msg.remaining_time = msToTime(msg.duration_mills - msg.elapsed_mills);
             msg.elapsed_time = msToTime(msg.elapsed_mills);
-            msg.duration_time = msToTime(msg.duration_mills);
             msg.width = window.screen.availWidth;
 
             $('body').html(headTpl({title:"To:" + msg.to.username}));
             $('div.content').html((deliveringMessageTpl({message:msg})));
             $('header').append('<a class="icon icon-left-nav pull-left" href="#deliverings"></a>');
-            drawMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
+            startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
               msg.duration_mills, msg.elapsed_mills)
           }
         });
