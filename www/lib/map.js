@@ -33,7 +33,7 @@ var dist;
 var distDiv = 40;
 var defaultNum = 5;
 
-var persec;
+var intervalTimes;
 
 var dTotal;
 var totalStep;
@@ -41,6 +41,7 @@ var totalStep;
 var stepNum;
 
 var zoomLevel;
+var map;
 
 
   /** Converts numeric degrees to radians */
@@ -69,16 +70,16 @@ function setZoomLevel(distNum){
   }else if( distNum <200){
     return 9;
   }else if( distNum <300){
-    return 8;
-
-  }else if( distNum <400){
     return 7;
 
-  }else if( distNum <500){
+  }else if( distNum <400){
     return 6;
 
-  }else if( distNum <700){
+  }else if( distNum <500){
     return 5;
+
+  }else if( distNum <700){
+    return 4;
 
   }else if( distNum <800){
     return 3;
@@ -192,7 +193,7 @@ function drawMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
   var zoomLat = (nyGeocode.x+ seoulGeocode.x)/2;//points[Math.floor(points.length/2)].x;
   var zoomLon = (nyGeocode.y + seoulGeocode.y)/2;//points[Math.floor(points.length/2)].y;
   var currGeocode = new Vector(currPosLat,currPosLon);
-  var map = L.map('map',{
+  map = L.map('map',{
             center:[zoomLat, zoomLon],
             zoom:zoomLevel
           });
@@ -214,41 +215,57 @@ function drawMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
   var currDist = getDistanceBtw(currGeocode.x,currGeocode.y,seoulGeocode.x,seoulGeocode.y);
   var dCurr = currDist/distDiv;
 
-  var currIndex = Math.floor(dTotal-dCurr);
+  var currIndex = Math.floor(dTotal-dCurr)-defaultNum;
 
   //put caculated circles on the map
 
+  var leftPoints = (points.length+1) - currIndex;
+  intervalTimes = (durationTime-elapssedTime)/leftPoints;
+  
+  drawPath(currIndex);
+  
+  //this part doesn't work
+  setInterval(drawPath(currIndex),500);
 
+}
+
+
+function drawPath(currIndex){
+
+console.log("hello!");
   for(var i=0; i<points.length; i++){
 
       if(i<currIndex){
 
       var circle = L.circle([points[i].x , points[i].y], 100, {
+          color: '#de0000',
           fillColor: '#de0000',
           stroke:true,
           fill:true,
           clickable:false,
-          fillOpacity: 0.7
+          fillOpacity: 0.9
       }).addTo(map);
     }
-      else if(i === currIndex){
-        var circle = L.circle([points[i].x , points[i].y], 205, {
-          fillColor: '#ffff00',
-          stroke:true,
-          fill:true,
-          fillOpacity: 0.7
-      }).addTo(map);
-      }
-    else{
+
+    else if( i>currIndex){
          var circle = L.circle([points[i].x , points[i].y], 100, {
+          color: '#0000de',
           fillColor: '#0000de',
           stroke:true,
           fill:true,
           clickable:false,
-          fillOpacity: 0.7
+          fillOpacity: 0.9
       }).addTo(map);
-    }
+    } else{
+        var circle = L.circle([points[i].x , points[i].y], 205, {
+          color: '#ffff00',
+          fillColor: '#ffff00',
+          stroke:true,
+          fill:true,
+          fillOpacity: 1
+      }).addTo(map);
+      }
   };
+  currIndex++;
 
 }
-
