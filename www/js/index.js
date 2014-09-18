@@ -37,6 +37,7 @@ var app = {
     var deliveringMessageTpl = Handlebars.compile($("#delivering-message-tpl").html());
     var deliveringMessagesTpl = Handlebars.compile($("#delivering-messages-tpl").html());
     var chooseFriendTpl = Handlebars.compile($("#choose-friend-tpl").html());
+    var unreadsNum = deliveringsNum = 0;
     /*
     // Check if HTML5 location support exists
     app.geolocation = false;
@@ -44,6 +45,15 @@ var app = {
       app.geolocation = navigator.geolocation;
     } 
     */
+
+    function updateMessagesNumber(username, callback) {
+      $.post(server+'/updateState', {username:username}, function(res) {
+        if(res.success) {
+           callback(null, res);
+        }
+        else  callback(err);
+      });
+    }
 
     function loadIncomingMessages(username, callback) {
       $.post(server+'/get-incoming-messages', {username:username}, function(res) {
