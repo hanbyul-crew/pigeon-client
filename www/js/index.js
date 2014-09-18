@@ -137,16 +137,24 @@ var app = {
           window.location ="";
         }
         else {
+          var unread = false;
           messages.forEach(function(m) {
             m.created_at_pretty = humaneDate(m.created_at)
             m.abridged_text = m.text.substring(0,25)
             if (m.text.length > 25) m.abridged_text += "...";
-            if(m.state === "arrived") m.isArrived = true; 
+            if(m.state === "arrived") {
+              m.isArrived = true; 
+              unread = true;
+            }
             else m.isArrived = false;
           })
+
           $('body').html(headTpl({title:'Incoming Messages'}));
           $('div.content').html(messagesTpl({messages:messages}));
           $('header').append('<a class="icon icon-compose pull-right" href="#choosefriend/messages"></a>');
+          if(unread) {
+            $('ul.messages li:eq(0)').before('<img src="img/arrived.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">');
+          }
         }
       });
     })

@@ -102,7 +102,7 @@
           
           <li class="table-view-cell media">
             <div class="media-body">
-            <p>{{message.depart_pos.address}} -> {{message.dest_pos.address}}</p>
+            {{message.depart_pos.address}} -> {{message.dest_pos.address}}
             <p>{{message.duration_time}}</p>
             </div>
           </li>
@@ -125,7 +125,6 @@
         </script>
 
         <script id="delivering-message-tpl" type="text/template">
-        
         <ul class="table-view">        
           <li>
             <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
@@ -135,29 +134,21 @@
             <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
           </li>
           <li class="table-view-cell media">
+            <div class="media-body">
+            {{message.text}}
+            </div>
+          </li>
+          <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
             <div class="media-body">
               {{message.to.username}}
               <p>{{message.created_at_pretty}}</p>
             </div>
           </li>
-          <li>
-          </li>
           <li class="table-view-cell media">
             <div class="media-body">
-            <p>{{message.text}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Departure Point
-            <p>{{message.depart_pos.address}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Destination Point
-            <p>{{message.dest_pos.address}}</p>
+            {{message.depart_pos.address}} ->
+             {{message.dest_pos.address}}
             </div>
           </li>
           <li class="table-view-cell media">
@@ -167,7 +158,6 @@
             </div>
           </li>
         </ul>
-
         </script>
 
         <script id="delivering-messages-tpl" type="text/template">
@@ -205,7 +195,7 @@
         </script>
 
         <script id="messages-tpl" type="text/template">
-        <ul class="table-view">
+        <ul class="table-view messages">
             {{#each messages}}
             <li class="table-view-cell media" data-from={{from.username}}>
             <a class="navigate-right" href="#message/{{ _id }}">
@@ -307,6 +297,7 @@
         <ul class="table-view">
         <li class="table-view-cell media">
           <div class="media-body">
+          <img class="media-object pull-left" src="img/friend_icon_{{friend.icon}}.png" style="width:42px;height:42px;">
           {{friend.username}}
           </div>
         </li>
@@ -315,6 +306,8 @@
           Address
           <p>{{friend.location.address}}</p>
           </div>
+        </li>
+        <li class="table-view-cell media">
         </li>
         </ul>
         <div class="bar bar-standard bar-footer-secondary">
