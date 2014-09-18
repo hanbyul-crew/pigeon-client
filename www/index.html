@@ -128,7 +128,7 @@
         <ul class="table-view">        
           <li>
             <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
-            <p style="text-align:center">Pigeon is Flying {{message.elapsed_time}}</p>
+            <p class="elapsed-time" style="text-align:center">Pigeon is Flying {{message.elapsed_time}}</p>
           </li>
           <li>
             <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
@@ -147,14 +147,14 @@
           </li>
           <li class="table-view-cell media">
             <div class="media-body">
-            {{message.depart_pos.address}} ->
+            {{message.depart_pos.address}} -> </br>
              {{message.dest_pos.address}}
             </div>
           </li>
           <li class="table-view-cell media">
             <div class="media-body">
             Remaining Time
-            <p>{{message.remaining_time}}</p>
+            <p class="remaining-time">{{message.remaining_time}}</p>
             </div>
           </li>
         </ul>

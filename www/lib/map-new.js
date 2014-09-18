@@ -259,10 +259,9 @@ function startMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
     if (elapssedTime >= durationTime){
       clearInterval(timer);
     } else {
-      elapssedTime += 1000;
+      elapssedTime += 10000;
       drawMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime);
-      console.log("update:" + elapssedTime);
     }
-  }, 1000);
+  }, 10000);
   return timer;
 }

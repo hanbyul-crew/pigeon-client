@@ -249,9 +249,16 @@ var app = {
             $('body').html(headTpl({title:"To:" + msg.to.username}));
             $('div.content').html((deliveringMessageTpl({message:msg})));
             $('header').append('<a class="icon icon-left-nav pull-left back"  href="#deliverings"></a>');
-            var timer = startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
+            var mapTimer = startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
               msg.duration_mills, msg.elapsed_mills);
+            var elapsed_mills = msg.elapsed_mills;
+            var timer = setInterval(function() {
+              elapsed_mills += 1000;
+              $('p.elapsed-time').text('Pigeon is Flying ' + msToTime(elapsed_mills));
+              $('p.remaining-time').text(msToTime(msg.duration_mills - elapsed_mills));
+            }, 1000);
             $('a.back').click(function(){
+              clearInterval(mapTimer);
               clearInterval(timer);
             })
           }
