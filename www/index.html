@@ -87,7 +87,11 @@
         <script id="incoming-message-tpl" type="text/template">
         
         <ul class="table-view">
-
+        <li class="table-view-cell media">
+            <div class="media-body">
+            {{message.text}}
+            </div>
+          </li>
         <li class="table-view-cell media">
             <span class="media-object pull-left icon icon-person"></span>
             <div class="media-body">
@@ -95,35 +99,14 @@
               <p>{{message.created_at_pretty}}</p>
             </div>
           </li>
+          
           <li class="table-view-cell media">
             <div class="media-body">
-            <p>{{message.text}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Departure Point
-            <p>{{message.depart_pos.address}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Destination Point
-            <p>{{message.dest_pos.address}}</p>
-            </div>
-          </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Duration Time
+            <p>{{message.depart_pos.address}} -> {{message.dest_pos.address}}</p>
             <p>{{message.duration_time}}</p>
             </div>
           </li>
-          <li class="table-view-cell media">
-            <div class="media-body">
-            Elapsed Time
-            <p>{{message.elapsed_time}}</p>
-            </div>
-          </li>
+
           <li>
             <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>
           </li>
@@ -226,8 +209,9 @@
             {{#each messages}}
             <li class="table-view-cell media" data-from={{from.username}}>
             <a class="navigate-right" href="#message/{{ _id }}">
+                <img class="media-object pull-left" src="img/friend_icon_{{from.icon}}.png" style="width:42px;height:42px;">
                 {{from.username}}
-                <p>{{text}}</p>
+                <p>{{abridged_text}}</p>
                 <p>{{created_at_pretty}}</p>
                 {{#if isArrived}}<span class="badge badge-primary">Unread</span>
                 {{else}}
@@ -374,7 +358,6 @@
                     <span class="badge badge-positive">Idle</span>
                 </a>
               {{/if}}
-                
             </li>
             {{/each}}
         </ul>
@@ -382,9 +365,12 @@
 
         <script id="auth-tpl" type="text/template">
         
-          <img src="img/pigeon.png" style="max-width:70%; max-height:70%; display: block;margin-left: auto;margin-right: auto;">
+          
         
         <ul class="table-view">
+          <li>
+          <img src="img/flying.gif" style="max-width:100%; max-height:100%; display: block;margin-left: auto;margin-right: auto;">
+          </li>
             <li class="table-view-cell media">
               <a class="navigate-right" href="#signup">
                 <span class="media-object pull-left icon icon-edit"></span>

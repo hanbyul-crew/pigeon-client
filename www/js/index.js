@@ -110,7 +110,7 @@ var app = {
     //home
     router.addRoute('', function(){
       if (!window.localStorage.getItem("username")) {
-        $('body').html(headTpl({title:'Pigeon'}));
+        $('body').html(headTpl({title:'Carrier Pigeon'}));
         $('div.content').html(authTpl());
         return;
       } else {
@@ -138,8 +138,9 @@ var app = {
         }
         else {
           messages.forEach(function(m) {
-            console.log(new Date(m.created_at))
             m.created_at_pretty = humaneDate(m.created_at)
+            m.abridged_text = m.text.substring(0,25)
+            if (m.text.length > 25) m.abridged_text += "...";
             if(m.state === "arrived") m.isArrived = true; 
             else m.isArrived = false;
           })
@@ -192,9 +193,12 @@ var app = {
             msg.width = window.screen.availWidth;
             $('body').html(headTpl({title:"From:" + msg.from.username}));
             $('div.content').html((incomingMessageTpl({message:msg, sending:sending})));
-            $('header').append('<a class="icon icon-left-nav pull-left" href="#messages"></a>');
-            startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
+            $('header').append('<a class="icon icon-left-nav pull-left back" href="#messages"></a>');
+            var timer = startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
               msg.duration_mills, msg.elapsed_mills)
+            $('a.back').click(function(){
+              clearInterval(timer);
+            })
           }
         });
     });
@@ -236,9 +240,12 @@ var app = {
 
             $('body').html(headTpl({title:"To:" + msg.to.username}));
             $('div.content').html((deliveringMessageTpl({message:msg})));
-            $('header').append('<a class="icon icon-left-nav pull-left" href="#deliverings"></a>');
-            startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
-              msg.duration_mills, msg.elapsed_mills)
+            $('header').append('<a class="icon icon-left-nav pull-left back"  href="#deliverings"></a>');
+            var timer = startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
+              msg.duration_mills, msg.elapsed_mills);
+            $('a.back').click(function(){
+              clearInterval(timer);
+            })
           }
         });
     });

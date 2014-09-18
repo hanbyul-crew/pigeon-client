@@ -264,4 +264,5 @@ function startMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
       console.log("update:" + elapssedTime);
     }
   }, 1000);
+  return timer;
 }
