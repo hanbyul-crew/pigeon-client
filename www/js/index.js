@@ -277,10 +277,15 @@ var app = {
             var elapsed_mills = msg.elapsed_mills;
             var timer = setInterval(function() {
               if (elapsed_mills >= msg.duration_mills){
+                var img = $('img.flying');
+                img.fadeOut('fast', function(){
+                  img.attr('src', 'img/arrived.gif');  
+                  img.fadeIn('fast');
+                })
                 clearInterval(timer);
               } else {
                 elapsed_mills += 1000;
-                $('p.elapsed-time').text('Pigeon is Flying ' + msToTime(elapsed_mills));
+                $('span.elapsed-time').text(msToTime(elapsed_mills));
                 $('p.remaining-time').text(msToTime(msg.duration_mills - elapsed_mills));
               }
             }, 1000);

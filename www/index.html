@@ -111,7 +111,7 @@
           </li>
           <li>
             <img src="img/arrived.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
-            <p class="elapsed-time" style="text-align:center">Pigeon has flown {{message.duration_time}}</p>
+            <p class="elapsed-time" style="text-align:center">Pigeon has flown for </br> {{message.duration_time}}</p>
           </li>
           <li class="table-view-cell media">
            <div class="media-body">
@@ -131,8 +131,8 @@
         <script id="delivering-message-tpl" type="text/template">
         <ul class="table-view">        
           <li>
-            <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
-            <p class="elapsed-time" style="text-align:center">Pigeon is Flying {{message.elapsed_time}}</p>
+            <img class="flying" src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
+            <p class="elapsed-time" style="text-align:center">Pigeon is Flying for </br> <span class="elapsed-time">{{message.elapsed_time}}</span></p>
           </li>
           <li>
             <div id="map" style="width:{{message.width}}px;height:{{message.width}}px;"></div>

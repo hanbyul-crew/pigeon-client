@@ -125,8 +125,16 @@ function startMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
     
     map = L.map('map',{
               center:[zoomLat, zoomLon],
-              zoom:zoomLevel
+              zoom:zoomLevel,
+              attribution:false
             });
+      // Disable drag and zoom handlers.
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+
+
 
     L.tileLayer('http://{s}.tiles.mapbox.com/v3/hanbyulhere.j8f7eihh/{z}/{x}/{y}.png', {
         maxZoom: 13,
@@ -186,6 +194,7 @@ function startMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
     }
 
   function drawPath(currIndex){
+    try{
     for(var i=0; i<points.length; i++){
 
         if(i<currIndex){
@@ -209,17 +218,21 @@ function startMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
             clickable:false,
             fillOpacity: 0.9
         }).addTo(map);
-      } else{
-          var circle = L.circle([points[i].x , points[i].y], 205, {
-            color: '#ffff00',
-            fillColor: '#ffff00',
-            stroke:true,
-            fill:true,
-            fillOpacity: 1
-        }).addTo(map);
-        }
+      } 
     };
+    
+    var circle = L.circle([points[currIndex].x , points[currIndex].y], 105, {
+          color: '#ffff00',
+          fillColor: '#ffff00',            
+          stroke:true,
+          fill:true,
+          fillOpacity: 1
+        }).addTo(map);
     currIndex++;
+    }catch(e){
+      
+    } 
+    
   }
 
     //these are vars passing from server.
@@ -241,15 +254,13 @@ function startMap(sLat, sLon, rLat, rLon, durationTime, elapssedTime) {
 
     //figure out current Index
     var currGeocode = new Vector(currPosLat,currPosLon);
-    var currDist = getDistanceBtw(currGeocode.x,currGeocode.y,seoulGeocode.x,seoulGeocode.y);
-    var dCurr = currDist/distDiv;
+    var currDist = getDistanceBtw(currGeocode.x,currGeocode.y,nyGeocode.x,nyGeocode.y);
+    var totalDist = getDistanceBtw(nyGeocode.x,nyGeocode.y,seoulGeocode.x,seoulGeocode.y);
+    var dCurr =    (currDist/totalDist) *(points.length-1);
+ 
 
-    var currIndex = Math.floor(dTotal-dCurr)-defaultNum;
+    var currIndex = Math.ceil(dCurr);
 
-    //put caculated circles on the map
-
-    var leftPoints = (points.length+1) - currIndex;
-    intervalTimes = (durationTime-elapssedTime)/leftPoints;
 
     drawPath(currIndex);
   }
