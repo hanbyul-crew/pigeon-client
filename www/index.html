@@ -85,7 +85,6 @@
         </script>
 
         <script id="incoming-message-tpl" type="text/template">
-        
         <ul class="table-view">
         <li class="table-view-cell media">
             <div class="media-body">
@@ -112,8 +111,13 @@
           </li>
           <li>
             <img src="img/arrived.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
+            <p class="elapsed-time" style="text-align:center">Pigeon has flown {{message.duration_time}}</p>
           </li>
-        
+          <li class="table-view-cell media">
+           <div class="media-body">
+           </br>
+            </div>
+          </li>
           </ul>
         <div class="bar bar-standard bar-footer">
           {{#if sending}}
@@ -173,6 +177,11 @@
             </li>
 
             {{/each}}
+            <li class="table-view-cell media">
+              <div class="media-body">
+              </br>
+              </div>
+            </li>
         </ul>
         <nav class="bar bar-tab">
           <a class="tab-item" href="#friends">
@@ -209,6 +218,11 @@
             </a>
             </li>
             {{/each}}
+            <li class="table-view-cell media">
+              <div class="media-body">
+              </br>
+              </div>
+            </li>
         </ul>
         <nav class="bar bar-tab">
           <a class="tab-item" href="#friends">
@@ -265,6 +279,11 @@
                 </a>
             </li>
             {{/each}}
+            <li class="table-view-cell media">
+              <div class="media-body">
+              </br>
+              </div>
+            </li>
         </ul>
         <nav class="bar bar-tab">
           <a class="tab-item active" href="#friends">
@@ -292,7 +311,7 @@
         <img src="img/flying.gif" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
         </a>
         {{else}}
-        <img src="http://api.tiles.mapbox.com/v4/hanbyulhere.j8f7eihh/pin-s-bus+f44({{friend.location.longitude}},{{friend.location.latitude}},13)/{{friend.location.longitude}},{{friend.location.latitude}},13/{{friend.width}}x{{friend.width}}.png?access_token=pk.eyJ1IjoiaGFuYnl1bGhlcmUiLCJhIjoiRXNUb2FGdyJ9.lJ4KY1vAdxBmTLMq6HMKEA" style="display: block;margin-left: auto;margin-right: auto;">
+        <img src="http://api.tiles.mapbox.com/v4/hanbyulhere.j8f7eihh/pin-s-bus+f44({{friend.location.longitude}},{{friend.location.latitude}},13)/{{friend.location.longitude}},{{friend.location.latitude}},13/{{friend.width}}x{{friend.width}}.png?access_token=pk.eyJ1IjoiaGFuYnl1bGhlcmUiLCJhIjoiRXNUb2FGdyJ9.lJ4KY1vAdxBmTLMq6HMKEA" style="display: block;margin-left: auto;margin-right: auto; max-width:100%">
         {{/if}}
         <ul class="table-view">
         <li class="table-view-cell media">
@@ -308,6 +327,9 @@
           </div>
         </li>
         <li class="table-view-cell media">
+         <div class="media-body">
+         </br></br></br>
+          </div>
         </li>
         </ul>
         <div class="bar bar-standard bar-footer-secondary">

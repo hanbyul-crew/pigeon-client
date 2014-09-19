@@ -179,30 +179,6 @@ var app = {
         }
       });
     })
-
-    router.addRoute('friend/:friendname', function(friendname) {
-      async.waterfall([
-        function(callback) {
-          $.post(server+'/friend', {username:window.localStorage.getItem("username"), friendname:friendname}, function(res) {
-            if(!res.success) callback(res.err);
-            else {
-              res.friend.sending = res.sending;
-              callback(null, res.friend);
-            }
-            });
-          }
-        ], function(err, friend) {
-          if(err) {
-            window.alert(err.message);
-          } else {
-            $('body').html(headTpl({title:friend.username}));
-            friend.width = window.screen.availWidth;
-            $('div.content').html((friendTpl({friend:friend})));
-            $('header').append('<a class="icon icon-left-nav pull-left" href="#friends"></a>');
-          }
-        });
-    })
-
     router.addRoute('message/:id', function(id) {
       resetTimers();
       async.waterfall([
@@ -230,6 +206,31 @@ var app = {
           }
         });
     });
+
+    router.addRoute('friend/:friendname', function(friendname) {
+      async.waterfall([
+        function(callback) {
+          $.post(server+'/friend', {username:window.localStorage.getItem("username"), friendname:friendname}, function(res) {
+            if(!res.success) callback(res.err);
+            else {
+              res.friend.sending = res.sending;
+              callback(null, res.friend);
+            }
+            });
+          }
+        ], function(err, friend) {
+          if(err) {
+            window.alert(err.message);
+          } else {
+            $('body').html(headTpl({title:friend.username}));
+            friend.width = window.screen.availWidth;
+            $('div.content').html((friendTpl({friend:friend})));
+            $('header').append('<a class="icon icon-left-nav pull-left" href="#friends"></a>');
+          }
+        });
+    })
+
+
 
     router.addRoute('deliverings', function(id) {
       resetTimers();
