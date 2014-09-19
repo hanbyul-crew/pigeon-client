@@ -38,6 +38,7 @@ var app = {
     var deliveringMessagesTpl = Handlebars.compile($("#delivering-messages-tpl").html());
     var chooseFriendTpl = Handlebars.compile($("#choose-friend-tpl").html());
     var unreadsNum = deliveringsNum = 0;
+    var timers = [];
     /*
     // Check if HTML5 location support exists
     app.geolocation = false;
@@ -45,6 +46,15 @@ var app = {
       app.geolocation = navigator.geolocation;
     } 
     */
+
+    function resetTimers() {
+      if (timers.length>0) {
+        timers.forEach(function(t) {
+          clearInterval(t);
+        })
+        timers = [];
+      }
+    }
 
     function updateMessagesNumber(username, callback) {
       $.post(server+'/updateState', {username:username}, function(res) {
@@ -141,6 +151,7 @@ var app = {
     })
   
     router.addRoute('messages', function() {
+      resetTimers();
       loadIncomingMessages(window.localStorage.getItem("username"), function(err, messages) {
         if(err) {
           window.alert("Cannot get messages");
@@ -193,6 +204,7 @@ var app = {
     })
 
     router.addRoute('message/:id', function(id) {
+      resetTimers();
       async.waterfall([
         function(callback) {
           $.post(server+'/get-message', {username:window.localStorage.getItem("username"), id:id, state:'read', type:'incoming'}, function(res) {
@@ -214,14 +226,13 @@ var app = {
             $('header').append('<a class="icon icon-left-nav pull-left back" href="#messages"></a>');
             var timer = startMap(msg.depart_pos.latitude, msg.depart_pos.longitude, msg.dest_pos.latitude, msg.dest_pos.longitude, 
               msg.duration_mills, msg.elapsed_mills)
-            $('a.back').click(function(){
-              clearInterval(timer);
-            })
+            timers.push(timer);
           }
         });
     });
 
     router.addRoute('deliverings', function(id) {
+      resetTimers();
       loadDeliveringMessages(window.localStorage.getItem("username"), function(err, messages) {
         if(err) {
           window.alert("Cannot get messages");
@@ -239,6 +250,7 @@ var app = {
     });
 
     router.addRoute('delivering/:id', function(id) {
+      resetTimers();
       async.waterfall([
         function(callback) {
           $.post(server+'/get-message', 
@@ -263,14 +275,15 @@ var app = {
               msg.duration_mills, msg.elapsed_mills);
             var elapsed_mills = msg.elapsed_mills;
             var timer = setInterval(function() {
-              elapsed_mills += 1000;
-              $('p.elapsed-time').text('Pigeon is Flying ' + msToTime(elapsed_mills));
-              $('p.remaining-time').text(msToTime(msg.duration_mills - elapsed_mills));
+              if (elapsed_mills >= msg.duration_mills){
+                clearInterval(timer);
+              } else {
+                elapsed_mills += 1000;
+                $('p.elapsed-time').text('Pigeon is Flying ' + msToTime(elapsed_mills));
+                $('p.remaining-time').text(msToTime(msg.duration_mills - elapsed_mills));
+              }
             }, 1000);
-            $('a.back').click(function(){
-              clearInterval(mapTimer);
-              clearInterval(timer);
-            })
+            timers.push(mapTimer); timers.push(timer);
           }
         });
     });
